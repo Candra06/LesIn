@@ -143,9 +143,9 @@ class UsersController extends Controller
         $user = Auth::user()->id;
         $role =  Auth::user()->role;
         if ($role == "siswa") {
-            $data = Siswa::join('users', 'users.id', 'data_siswa.id_akun')->where('data_siswa.id_akun', $user)->select('data_siswa.*', 'users.role')->first();
+            $data = Siswa::join('users', 'users.id', 'data_siswa.id_akun')->where('data_siswa.id_akun', $user)->select('data_siswa.*', 'users.role', 'user.email')->first();
         } else {
-            $data = Tentor::join('users', 'users.id', 'data_tentor.id_akun')->where('data_tentor.id_akun', $user)->select('data_tentor.*', 'users.role')->first();
+            $data = Tentor::join('users', 'users.id', 'data_tentor.id_akun')->where('data_tentor.id_akun', $user)->select('data_tentor.*', 'users.role', 'user.email')->first();
         }
 
         return response()->json(['success' => $data], 200);
