@@ -143,9 +143,9 @@ class UsersController extends Controller
         $user = Auth::user()->id;
         $role =  Auth::user()->role;
         if ($role == "siswa") {
-            $data = Siswa::where('id_akun', $user)->first();
+            $data = Siswa::join('users', 'users.id', 'data_siswa.id_akun')->where('data_siswa.id_akun', $user)->select('data_siswa.*', 'users.role')->first();
         } else {
-            $data = Tentor::where('id_akun', $user)->first();
+            $data = Tentor::join('users', 'users.id', 'data_tentor.id_akun')->where('data_tentor.id_akun', $user)->select('data_tentor.*', 'users.role')->first();
         }
 
         return response()->json(['success' => $data], 200);
@@ -191,11 +191,11 @@ class UsersController extends Controller
             $data['tgl_lahir'] = $request['tgl_lahir'];
             $data['alamat'] = $request['alamat'];
             $data['id_akun'] = $idAkun;
+            $data['motto'] = 'Live is never flat';
+            $data['saldo_dompet'] = 0;
             // return $data;
             Tentor::create($data);
         }
-
-
 
         if ($users) {
             return response()->json(['success' => 'Berhasil menambahkan data'], $this->successStatus);
