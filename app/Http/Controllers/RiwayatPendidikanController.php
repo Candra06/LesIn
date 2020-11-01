@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\RiwayatPrestasi;
+use App\RiwayatPendidikan;
 use Illuminate\Http\Request;
 
-class RiwayatPrestasiController extends Controller
+class RiwayatPendidikanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -44,7 +44,7 @@ class RiwayatPrestasiController extends Controller
      * @param  \App\RiwayatPrestasi  $riwayatPrestasi
      * @return \Illuminate\Http\Response
      */
-    public function show(RiwayatPrestasi $riwayatPrestasi)
+    public function show(RiwayatPendidikan $riwayatPrestasi)
     {
         //
     }
@@ -55,7 +55,7 @@ class RiwayatPrestasiController extends Controller
      * @param  \App\RiwayatPrestasi  $riwayatPrestasi
      * @return \Illuminate\Http\Response
      */
-    public function edit(RiwayatPrestasi $riwayatPrestasi)
+    public function edit(RiwayatPendidikan $riwayatPrestasi)
     {
         //
     }
@@ -67,7 +67,7 @@ class RiwayatPrestasiController extends Controller
      * @param  \App\RiwayatPrestasi  $riwayatPrestasi
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, RiwayatPrestasi $riwayatPrestasi)
+    public function update(Request $request, RiwayatPendidikan $riwayatPrestasi)
     {
         //
     }
@@ -78,7 +78,7 @@ class RiwayatPrestasiController extends Controller
      * @param  \App\RiwayatPrestasi  $riwayatPrestasi
      * @return \Illuminate\Http\Response
      */
-    public function destroy(RiwayatPrestasi $riwayatPrestasi)
+    public function destroy(RiwayatPendidikan $riwayatPrestasi)
     {
         //
     }
