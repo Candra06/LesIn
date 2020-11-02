@@ -12,7 +12,7 @@ class MapelController extends Controller
     {
         $mapel = Mapel::all();
         if ($mapel) {
-            return response()->json(['success' => $mapel], 200);
+            return response()->json(['data' => $mapel], 200);
         } else {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
@@ -43,7 +43,7 @@ class MapelController extends Controller
             $input['jenjang'] = $request['jenjang'];
             $input['kelas'] = $request['kelas'];
             Mapel::create($input);
-            return response()->json(['success' => 'Berhasil menambah data'], 200);
+            return response()->json(['data' => 'Berhasil menambah data'], 200);
         } catch (\Throwable $th) {
             return response()->json(['error' => 'Failed input data', 'message' =>$th], 401);
         }

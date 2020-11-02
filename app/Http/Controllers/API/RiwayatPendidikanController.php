@@ -37,9 +37,9 @@ class RiwayatPendidikanController extends Controller
             $input['tahun_lulus'] = $request['tahun_lulus'];
         }
         RiwayatPendidikan::create($input);
-        return response()->json(['success' => 'Berhasil menambahkan data'],200);
+        return response()->json(['data' => 'Berhasil menambahkan data'],200);
        } catch (\Throwable $th) {
-        return response()->json(['failed' => 'Gagal menambah data', 'pesan' => $th], 401);
+        return response()->json(['error' => 'Gagal menambah data', 'pesan' => $th], 401);
        }
     }
 }

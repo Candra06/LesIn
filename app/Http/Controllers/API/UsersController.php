@@ -100,7 +100,7 @@ class UsersController extends Controller
             } else {
                 Tentor::where('id_akun', $id)->update($data);
             }
-            return response()->json(['success' => 'Sukses'], $this->successStatus);
+            return response()->json(['data' => 'Sukses'], $this->successStatus);
         } catch (\Throwable $th) {
             //throw $th;
             return response()->json(['error' => 'Failed'], 401);
@@ -127,7 +127,7 @@ class UsersController extends Controller
         if($data){
             if(password_verify($password, $data->password)){
                 $success['token'] =  $data->createToken('nApp')->accessToken;
-                return response()->json(['success' => $success], $this->successStatus);
+                return response()->json(['data' => $success], $this->successStatus);
             }else{
                 return response()->json(['error' => bcrypt($password)], 401);
             }
@@ -148,7 +148,7 @@ class UsersController extends Controller
             $data = Tentor::join('users', 'users.id', 'data_tentor.id_akun')->where('data_tentor.id_akun', $user)->select('data_tentor.*', 'users.role', 'users.email')->first();
         }
 
-        return response()->json(['success' => $data], 200);
+        return response()->json(['data' => $data], 200);
     }
 
     public function register(Request $request)
@@ -198,7 +198,7 @@ class UsersController extends Controller
         }
 
         if ($users) {
-            return response()->json(['success' => 'Berhasil menambahkan data'], $this->successStatus);
+            return response()->json(['data' => 'Berhasil menambahkan data'], $this->successStatus);
         } else {
             return response()->json(['error' => 'Unauthorized'], 401);
         }

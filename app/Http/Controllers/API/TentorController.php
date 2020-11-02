@@ -16,7 +16,7 @@ class TentorController extends Controller
             $input['motto'] = $request['motto'];
             // return response()->json(['success' => $tentor], 200);
             Tentor::where('id', $tentor)->update($input);
-            return response()->json(['success' => 'Berhasil menambahkan data'], 200);
+            return response()->json(['data' => 'Berhasil menambahkan data'], 200);
         } catch (\Throwable $th) {
             return response()->json(['error' => 'Unauthorized', 'pesan' => $th], 401);
         }
@@ -30,5 +30,12 @@ class TentorController extends Controller
         } catch (\Throwable $th) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
+    }
+
+    public function addDataMengjaar(Request $request)
+    {
+        $request->validate([
+
+        ]);
     }
 }
