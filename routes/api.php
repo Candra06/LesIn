@@ -26,4 +26,9 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::get('riwayatPendidikan/{tentor}', 'API\RiwayatPendidikanController@riwayat');
     Route::post('addInfo/{tentor}', 'API\TentorController@addInfoTentor');
     Route::get('getInfo/{tentor}', 'API\TentorController@getInfoTentor');
+    Route::post('addDataMengajar', 'API\TentorController@addDataMengajar');
+    Route::get('getTentor/{mapel}', 'API\TentorController@getListTentor');
+    Route::post('addPrestasi', 'API\PrestasiController@addPrestasi');
+    Route::get('getPrestasi/{tentor}', 'API\PrestasiController@getPrestasi');
+    Route::post('tambahKelas', 'API\KelasController@addKelas');
 });
