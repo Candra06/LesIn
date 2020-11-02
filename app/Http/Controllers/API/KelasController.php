@@ -45,7 +45,19 @@ class KelasController extends Controller
 
     public function listKelas($user)
     {
-        # code...
+        $data = Kelas::join('data_tentor as dt', 'dt.id', 'kelas.id_tentor')
+        ->join('data_siswa as ds', 'ds.id', 'kelas.id_siswa')
+        ->join('data_mapel as dm', 'dm.id', 'kelas.id_mapel')
+        ->where('kelas.id_tentor', $user)
+        ->orWhere('kelas.id_tentor', $user)
+        ->select('kelas.jumlah_pertemuan', 'kelas.pertemuan', 'kelas.id','ds.nama', 'dt.nama','kelas.id_tentor', 'kelas.id_siswa', 'dm.mapel')
+        ->get();
+        if ($data) {
+            return response()->json(['data' => $data], 200);
+        } else {
+            return response()->json(['error' => 'Gagal memuat data'], 401);
+        }
+
     }
 
     public function detailKelasBySiswa($kelas)

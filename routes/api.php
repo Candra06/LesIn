@@ -31,4 +31,5 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::post('addPrestasi', 'API\PrestasiController@addPrestasi');
     Route::get('getPrestasi/{tentor}', 'API\PrestasiController@getPrestasi');
     Route::post('tambahKelas', 'API\KelasController@addKelas');
+    Route::get('listKelas/{user}', 'API\KelasController@listKelas');
 });
