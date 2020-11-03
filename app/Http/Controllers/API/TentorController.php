@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\DataMengajar;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Tentor;
@@ -32,10 +33,32 @@ class TentorController extends Controller
         }
     }
 
-    public function addDataMengjaar(Request $request)
+    public function addDataMengajar(Request $request)
     {
         $request->validate([
-
+            'tentor' => 'required',
+            'mapel' => 'required',
         ]);
+
+        try {
+            $input = $request->all();
+            $input['id_mapel'] = $request['mapel'];
+            $input['id_tentor'] = $request['tentor'];
+            DataMengajar::create($input);
+            return response()->json(['data' => 'Sukses'], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => 'Failed'], 401);
+        }
+    }
+
+    public function getListTentor($mapel)
+    {
+        $dataMengajar = DataMengajar::join('data_tentor as dt', 'dt.id', 'data_mengajar.id_tentor')->where('id_mapel', $mapel)->get();
+        if ($dataMengajar) {
+            return response()->json(['data' => $dataMengajar],200);
+        } else {
+            return response()->json(['error' => 'Failed getting data'], 401);
+        }
+
     }
 }
