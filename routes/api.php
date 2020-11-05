@@ -32,4 +32,9 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::get('getPrestasi/{tentor}', 'API\PrestasiController@getPrestasi');
     Route::post('tambahKelas', 'API\KelasController@addKelas');
     Route::get('listKelas/{user}', 'API\KelasController@listKelas');
+    Route::post('pembayaran', 'API\PembayaranController@pembayaran');
+    Route::post('konfirmasi/{log}', 'API\PembayaranController@konfirmasi');
+    Route::get('logPembayaran/{kelas}', 'API\PembayaranController@logPembayaran');
+    Route::get('kelasTentor/{kelas}', 'API\KelasController@detailKelasByTentor');
+    Route::get('kelasSiswa/{kelas}', 'API\KelasController@detailKelasBySiswa');
 });
