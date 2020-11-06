@@ -61,4 +61,14 @@ class TentorController extends Controller
         }
 
     }
+
+    public function deleteDataMengajar($id)
+    {
+        try {
+            DataMengajar::where('id', $id)->delete();
+            return response()->json(['data' => 'Sukses'], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => 'Failed'], 401);
+        }
+    }
 }

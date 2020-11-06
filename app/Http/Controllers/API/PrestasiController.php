@@ -38,4 +38,16 @@ class PrestasiController extends Controller
         }
 
     }
+
+    public function delete($id)
+    {
+        try {
+            Prestasi::where('id', $id)->delete();
+            return response()->json(['data' => 'sukses'], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => 'Gagal menambah data'], 401);
+        }
+    }
+
+
 }

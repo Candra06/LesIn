@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Kelas;
 use App\LogPembayaran;
 use App\Pembayaran;
 use App\Siswa;
@@ -60,8 +61,6 @@ class PembayaranController extends Controller
             $log['created_by'] = $idSiswa->id;
             $log['confirmed_by'] = 0;
             $log['status'] = 'Pending';
-            return $request;
-            return response()->json(['data' => $request], 200);
             try {
                 LogPembayaran::create($log);
                 return response()->json(['data' => 'Berhasil menambahkan data'], 200);
@@ -89,11 +88,14 @@ class PembayaranController extends Controller
         ]);
         $auth = Auth::user()->id;
         $id = Tentor::where('id_akun', $auth)->select('id')->first();
-        // $cek = LogPembayaran::join('pembayaran', 'pembayaran.id', 'log_pembayaran.id_pembayaran')
-
-        // ->where('id', $log)->first();
+        $cek = LogPembayaran::leftjoin('data_pembayaran', 'data_pembayaran.id', 'log_pembayaran.id_pembayaran')
+            ->leftjoin('kelas', 'kelas.id', 'data_pembayaran.id_kelas')
+        ->where('log_pembayaran.id', $log)->select('kelas.status', 'kelas.id')->first();
         $up['status'] = $request['status'];
         $up['confirmed_by'] = $id;
+        if ($up['status'] == 'Confirmed' && $cek->status == 'Pending') {
+            Kelas::where('id', $cek->id)->update(['status' => 'Aktif']);
+        }
 
         try {
             LogPembayaran::where('id', $log)->update($up);

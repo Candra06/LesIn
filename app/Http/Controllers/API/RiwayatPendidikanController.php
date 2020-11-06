@@ -42,4 +42,14 @@ class RiwayatPendidikanController extends Controller
         return response()->json(['error' => 'Gagal menambah data', 'pesan' => $th], 401);
        }
     }
+
+    public function delete($id)
+    {
+        try {
+            RiwayatPendidikan::where('id', $id)->delete();
+            return response()->json(['data' => 'sukses'],200);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => 'Gagal menghapus data', 'pesan' => $th], 401);
+        }
+    }
 }

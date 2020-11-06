@@ -37,4 +37,7 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::get('logPembayaran/{kelas}', 'API\PembayaranController@logPembayaran');
     Route::get('kelasTentor/{kelas}', 'API\KelasController@detailKelasByTentor');
     Route::get('kelasSiswa/{kelas}', 'API\KelasController@detailKelasBySiswa');
+    Route::delete('prestasi/{id}', 'API\PrestasiController@delete');
+    Route::delete('dataMengajar/{id}', 'API\TentorController@deleteDataMengajar');
+    Route::delete('pendidikan/{id}', 'API\RiwayatPendidikanController@delete');
 });
