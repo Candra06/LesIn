@@ -162,6 +162,8 @@ class UsersController extends Controller
             'gender' => 'required',
             'tgl_lahir' => 'required',
             'alamat' => 'required',
+            'lattitude' => 'required',
+            'longitude' => 'required',
         ]);
 
         if (!$request->role) {
@@ -193,6 +195,8 @@ class UsersController extends Controller
             $data['id_akun'] = $idAkun;
             $data['motto'] = 'Live is never flat';
             $data['saldo_dompet'] = 0;
+            $data['lattitude'] = 0;
+            $data['longitude'] = 0;
             // return $data;
             Tentor::create($data);
         }

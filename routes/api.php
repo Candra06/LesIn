@@ -40,4 +40,7 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::delete('prestasi/{id}', 'API\PrestasiController@delete');
     Route::delete('dataMengajar/{id}', 'API\TentorController@deleteDataMengajar');
     Route::delete('pendidikan/{id}', 'API\RiwayatPendidikanController@delete');
+    Route::post('createChat', 'API\ChatController@createChat');
+    Route::get('listRoom/{user}', 'API\ChatController@listChat');
+    Route::get('detailChat/{room}', 'API\ChatController@detailChat');
 });

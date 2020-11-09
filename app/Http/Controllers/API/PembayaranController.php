@@ -72,7 +72,8 @@ class PembayaranController extends Controller
 
     public function logPembayaran($kelas)
     {
-        $data = LogPembayaran::leftJoin('data_pembayaran', 'data_pembayaran.id', 'log_pembayaran.id_pembayaran')->where('data_pembayaran.id_kelas', $kelas)->get();
+        $data = LogPembayaran::leftJoin('data_pembayaran', 'data_pembayaran.id', 'log_pembayaran.id_pembayaran')->where('data_pembayaran.id_kelas', $kelas)
+        ->select('log_pembayaran.id_pembayaran', 'log_pembayaran.id as id', 'log_pembayaran.bukti_tf', 'log_pembayaran.tanggal_bayar', 'log_pembayaran.jumlah_bayar', 'log_pembayaran.created_by')->get();
         if ($data) {
             return response()->json(['data' => $data], 200);
         } else {
@@ -91,17 +92,20 @@ class PembayaranController extends Controller
         $cek = LogPembayaran::leftjoin('data_pembayaran', 'data_pembayaran.id', 'log_pembayaran.id_pembayaran')
             ->leftjoin('kelas', 'kelas.id', 'data_pembayaran.id_kelas')
         ->where('log_pembayaran.id', $log)->select('kelas.status', 'kelas.id')->first();
+        // return $id->id;
         $up['status'] = $request['status'];
-        $up['confirmed_by'] = $id;
-        if ($up['status'] == 'Confirmed' && $cek->status == 'Pending') {
+        $up['confirmed_by'] = $id->id;
+
+        if ($up['status'] == 'Confirmed' && $cek->status == 'Pending' && $cek != null) {
             Kelas::where('id', $cek->id)->update(['status' => 'Aktif']);
         }
 
         try {
+
             LogPembayaran::where('id', $log)->update($up);
             return response()->json(['data' => 'Berhasil mengkonfirmasi pembayaran'], 200);
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['error' => 'Unauthorized', 'message' => $th], 401);
         }
     }
 }
