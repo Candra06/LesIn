@@ -13,6 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', 'UsersController@home');
+Route::post('/login', 'UsersController@login');
+
+Route::group(['middleware' => 'Admin'], function () {
+    Route::get('/logout', 'UsersController@logout');
+    Route::get('/dashboard', 'UsersController@dashboard');
+    Route::resource('/siswa', 'SiswaController');
+    Route::resource('/tentor', 'TentorController');
+    Route::resource('/user', 'UsersController');
 });

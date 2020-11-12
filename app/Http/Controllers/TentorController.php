@@ -14,7 +14,7 @@ class TentorController extends Controller
      */
     public function index()
     {
-        //
+        return view('tentor.index');
     }
 
     /**
