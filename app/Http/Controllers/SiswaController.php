@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Siswa;
-use App\User;
 use Illuminate\Http\Request;
 
 class SiswaController extends Controller
@@ -15,8 +13,7 @@ class SiswaController extends Controller
      */
     public function index()
     {
-        $data = Siswa::all();
-        return view('siswa.index', compact('data'));
+        //
     }
 
     /**
@@ -26,7 +23,7 @@ class SiswaController extends Controller
      */
     public function create()
     {
-        return view('siswa.add');
+        //
     }
 
     /**
@@ -37,42 +34,16 @@ class SiswaController extends Controller
      */
     public function store(Request $request)
     {
-
-        $request->validate([
-            'nama' => 'required',
-            'email' => 'required|email',
-            'password' => 'required',
-            'telepon' => 'required',
-            'whatsapp' => 'required',
-            'alamat' => 'required',
-            'gender' => 'required',
-            'tglLahir' => 'required',
-        ]);
-        try {
-            $akun['email'] = $request['email'];
-            $akun['password'] = bcrypt($request['email']);
-            $akunSiswa = User::create($akun);
-            $siswa['id_akun'] = $akunSiswa->id;
-            $siswa['nama'] = $request['nama'];
-            $siswa['telepon'] = $request['telepon'];
-            $siswa['wa'] = $request['whatsapp'];
-            $siswa['alamat'] = $request['alamat'];
-            $siswa['gender'] = $request['gender'];
-            $siswa['tgl_lahir'] = $request['tglLahir'];
-            Siswa::create($siswa);
-            return redirect('/siswa')->with('status', 'Berhasil menambah data');
-        } catch (\Throwable $th) {
-            return redirect('/siswa/create')->with('status', 'Gagal menambah data');
-        }
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Siswa  $siswa
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Siswa $siswa)
+    public function show($id)
     {
         //
     }
@@ -80,10 +51,10 @@ class SiswaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Siswa  $siswa
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Siswa $siswa)
+    public function edit($id)
     {
         //
     }
@@ -92,10 +63,10 @@ class SiswaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Siswa  $siswa
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Siswa $siswa)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -103,11 +74,16 @@ class SiswaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Siswa  $siswa
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Siswa $siswa)
+    public function destroy($id)
     {
         //
+    }
+
+    public function siswaById()
+    {
+        # code...
     }
 }

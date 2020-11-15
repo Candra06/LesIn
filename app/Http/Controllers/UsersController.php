@@ -20,6 +20,7 @@ class UsersController extends Controller
 
     public function dashboard()
     {
+        // $data = 
         return view('dashboard.index');
     }
 
