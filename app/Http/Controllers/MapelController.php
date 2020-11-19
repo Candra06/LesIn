@@ -14,7 +14,8 @@ class MapelController extends Controller
      */
     public function index()
     {
-        //
+        $data = Mapel::all();
+        return view('mapel.index', compact('data'));
     }
 
     /**
@@ -24,7 +25,7 @@ class MapelController extends Controller
      */
     public function create()
     {
-        //
+        return view('mapel.add');
     }
 
     /**
@@ -35,7 +36,25 @@ class MapelController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'mapel' => 'required',
+            'tingkatan' => 'required',
+            'kelas' => 'required',
+            'status' => 'required',
+        ]);
+        try {
+
+            $input['mapel'] = $request['mapel'];
+            $input['jenjang'] = $request['tingkatan'];
+            $input['kelas'] = $request['kelas'];
+            $input['status'] = $request['status'];
+
+            Mapel::create($input);
+            return redirect('/mapel')->with('status', 'Berhasil menambahkan data');
+        } catch (\Throwable $th) {
+            return $th;
+            return redirect('/mapel/create')->with('status', $th);
+        }
     }
 
     /**

@@ -6,11 +6,11 @@
             <div class="page-inner py-5">
                 <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
                     <div>
-                        <h2 class="text-white pb-2 fw-bold">Siswa</h2>
+                        <h2 class="text-white pb-2 fw-bold">Data Mengajar</h2>
                         <h5 class="text-white op-7 mb-2">Free Bootstrap 4 Admin Dashboard</h5>
                     </div>
                     <div class="ml-md-auto py-2 py-md-0">
-                        <a href="{{ url('/siswa/create') }}" class="btn btn-secondary btn-round">Tambah Data</a>
+                        <a href="{{ url('/dataMengajar/create') }}" class="btn btn-secondary btn-round">Tambah Data</a>
                     </div>
                 </div>
             </div>
@@ -33,17 +33,18 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Data Siswa</h4>
+                            <h4 class="card-title">Data Mengajar</h4>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table id="basic-datatables" class="display table table-striped table-hover">
                                     <thead>
                                         <tr>
-                                            <th>Nama</th>
-                                            <th>Telepon</th>
-                                            <th>Whatsapp</th>
-                                            <th>Gender</th>
+                                            <th>Tentor</th>
+                                            <th>Mapel</th>
+                                            <th>Kelas</th>
+                                            <th>Jenjang</th>
+                                            <th>Status</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
@@ -51,11 +52,12 @@
                                         @foreach ($data as $item)
                                             <tr>
                                                 <td>{{ $item->nama }}</td>
-                                                <td>{{ $item->telepon}}</td>
-                                                <td>{{ $item->wa}}</td>
-                                                <td>{{ $item->gender == 'laki-laki' ? 'Laki-laki' : 'Perempuan' }}</td>
+                                                <td>{{ $item->mapel}}</td>
+                                                <td>{{ $item->jenjang}}</td>
+                                                <td>{{ $item->kelas }}</td>
+                                                <td>{{ $item->status}}</td>
                                                 <td >
-                                                    <a href="{{ url('/siswa/'.$item->id.'/edit')}}" class="btn btn-xs btn-primary"><i class="fas fa-edit"></i></a>
+                                                    <a href="{{ url('/dataMengajar/'.$item->id.'/edit')}}" class="btn btn-xs btn-primary"><i class="fas fa-edit"></i></a>
 
                                                 </td>
                                             </tr>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Siswa;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -20,12 +21,13 @@ class UsersController extends Controller
 
     public function dashboard()
     {
-        // $data = 
+        // $data =
         return view('dashboard.index');
     }
 
     public function login(Request $request)
     {
+
         $data = User::where('email', $request->username)->first();
         if ($data) {
             if ($data->role != 'admin') {

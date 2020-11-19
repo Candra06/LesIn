@@ -10,7 +10,7 @@
                         <h5 class="text-white op-7 mb-2">Free Bootstrap 4 Admin Dashboard</h5>
                     </div>
                     <div class="ml-md-auto py-2 py-md-0">
-                        <a href="{{ url('/siswa/create') }}" class="btn btn-secondary btn-round">Tambah Data</a>
+                        <a href="{{ url('/mapel/create') }}" class="btn btn-secondary btn-round">Tambah Data</a>
                     </div>
                 </div>
             </div>
@@ -40,22 +40,22 @@
                                 <table id="basic-datatables" class="display table table-striped table-hover">
                                     <thead>
                                         <tr>
-                                            <th>Nama</th>
-                                            <th>Telepon</th>
-                                            <th>Whatsapp</th>
-                                            <th>Gender</th>
+                                            <th>Mapel</th>
+                                            <th>Jenjang</th>
+                                            <th>Kelas</th>
+                                            <th>Status</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($data as $item)
                                             <tr>
-                                                <td>{{ $item->nama }}</td>
-                                                <td>{{ $item->telepon}}</td>
-                                                <td>{{ $item->wa}}</td>
-                                                <td>{{ $item->gender == 'laki-laki' ? 'Laki-laki' : 'Perempuan' }}</td>
+                                                <td>{{ $item->mapel }}</td>
+                                                <td>{{ $item->jenjang}}</td>
+                                                <td>{{ $item->kelas}}</td>
+                                                <td>{{ $item->status }}</td>
                                                 <td >
-                                                    <a href="{{ url('/siswa/'.$item->id.'/edit')}}" class="btn btn-xs btn-primary"><i class="fas fa-edit"></i></a>
+                                                    <a href="{{ url('/mapel/'.$item->id.'/edit')}}" class="btn btn-xs btn-primary"><i class="fas fa-edit"></i></a>
 
                                                 </td>
                                             </tr>

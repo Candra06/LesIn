@@ -3,18 +3,18 @@
         <div class="sidebar-content">
             <div class="user">
                 <div class="avatar-sm float-left mr-2">
-                    <img src="../assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle">
+                    <img src="{{url('/')}}/assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle">
                 </div>
                 <div class="info">
                     <a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
                         <span>
                             Admin Les.In
-                            <span class="user-level">{{session('username')}}</span>
+                            <span class="user-level">{{ session('email') }}</span>
                         </span>
                     </a>
                     <div class="clearfix"></div>
 
-                   
+
                 </div>
             </div>
             <ul class="nav nav-primary">
@@ -49,12 +49,29 @@
                                     <span class="sub-item">Data Tentor</span>
                                 </a>
                             </li>
-                            <li class="{{ Request::segment(1) == 'user' ? 'active' : '' }}">
-                                <a href="{{ url('/user')}}">
-                                    <span class="sub-item">Admin</span>
+
+
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item {{ Request::segment(1) == 'mapel' ? 'active' : '' }} submenu">
+                    <a data-toggle="collapse" href="#sidebarLayouts">
+                        <i class="fas fa-book-open"></i>
+                        <p>Mata Pelajaran</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse {{ Request::segment(1) == 'mapel' || Request::segment(1) == 'dataMengajar' ? 'show' : '' }}" id="sidebarLayouts">
+                        <ul class="nav nav-collapse">
+                            <li class="{{ Request::segment(1) == 'mapel' ? 'active' : '' }}">
+                                <a href="{{ url('/mapel')}}">
+                                    <span class="sub-item ">Data Mapel</span>
                                 </a>
                             </li>
-
+                            <li class="{{ Request::segment(1) == 'dataMengajar' ? 'active' : '' }}">
+                                <a href="{{ url('/dataMengajar')}}">
+                                    <span class="sub-item">Data Mengajar</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </li>

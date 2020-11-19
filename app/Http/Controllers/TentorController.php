@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Tentor;
+use App\User;
 use Illuminate\Http\Request;
 
 class TentorController extends Controller
@@ -14,7 +15,8 @@ class TentorController extends Controller
      */
     public function index()
     {
-        return view('tentor.index');
+        $data = Tentor::all();
+        return view('tentor.index', compact('data'));
     }
 
     /**
@@ -24,7 +26,7 @@ class TentorController extends Controller
      */
     public function create()
     {
-        //
+        return view('tentor.add');
     }
 
     /**
@@ -35,7 +37,39 @@ class TentorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nama' => 'required|max:45',
+            'email' => 'required|max:45',
+            'password' => 'required',
+            'telepon' => 'required|max:13',
+            'gender' => 'required',
+            'tgl_lahir' => 'required',
+            'alamat' => 'required',
+        ]);
+
+        $akun['email'] = $request['email'];
+        $akun['password'] = bcrypt($request['password']);
+        $akun['role'] = 'tentor';
+        $addAkun = User::create($akun);
+
+        $tentor['id_akun'] = $addAkun->id;
+        $tentor['nama'] = $request['nama'];
+        $tentor['telepon'] = $request['telepon'];
+        $tentor['gender'] = $request['gender'];
+        $tentor['tgl_lahir'] = $request['tgl_lahir'];
+        $tentor['alamat'] = $request['alamat'];
+        $tentor['motto'] = '-';
+        $tentor['hobi'] = '-';
+        $tentor['lattitude'] = '-';
+        $tentor['longitude'] = '-';
+        $tentor['saldo_dompet'] = 0;
+
+        try {
+            Tentor::create($tentor);
+            return redirect('/tentor')->with('status', 'Berhasil menambahkan data');
+        } catch (\Throwable $th) {
+            return redirect('/tentor/create')->with('status', $th);
+        }
     }
 
     /**

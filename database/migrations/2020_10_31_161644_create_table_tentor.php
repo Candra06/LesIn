@@ -18,12 +18,12 @@ class CreateTableTentor extends Migration
             $table->unsignedBigInteger('id_akun');
             $table->string('nama', 45);
             $table->string('telepon', 13);
-            $table->string('wa', 13);
             $table->enum('gender', ['laki-laki', 'perempuan']);
             $table->date('tgl_lahir');
             $table->text('alamat');
             $table->text('motto');
             $table->integer('saldo_dompet');
+            $table->integer('rating')->default(0);
             $table->timestamps();
             $table->foreign('id_akun')->references('id')->on('users');
         });

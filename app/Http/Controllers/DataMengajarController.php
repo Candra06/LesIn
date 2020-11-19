@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\DataMengajar;
+use App\Mapel;
+use App\Tentor;
 use Illuminate\Http\Request;
 
 class DataMengajarController extends Controller
@@ -14,7 +16,10 @@ class DataMengajarController extends Controller
      */
     public function index()
     {
-        //
+        $data = DataMengajar::join('data_tentor as dt', 'dt.id', 'data_mengajar.id_tentor')
+        ->join('data_mapel', 'data_mapel.id', 'data_mengajar.id_mapel')
+        ->select('dt.nama', 'data_mapel.mapel', 'data_mapel.jenjang', 'data_mapel.kelas', 'data_mengajar.status')->get();
+        return view('dataMengajar.index', compact('data'));
     }
 
     /**
@@ -24,7 +29,9 @@ class DataMengajarController extends Controller
      */
     public function create()
     {
-        //
+        $tentor = Tentor::where('status', 'Aktif')->get();
+        $mapel = Mapel::where('status', 'Aktif')->get();
+        return view('dataMengajar.add', compact('tentor', 'mapel'));
     }
 
     /**
@@ -35,7 +42,21 @@ class DataMengajarController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'tentor' => 'required',
+            'mapel' => 'required',
+            'status' => 'required',
+        ]);
+
+        try {
+            $input['id_tentor'] = $request['tentor'];
+            $input['id_mapel'] = $request['mapel'];
+            $input['status'] = $request['status'];
+            DataMengajar::create($input);
+            return redirect('/dataMengajar')->with('status', 'Berhasil menambahkan data');
+        } catch (\Throwable $th) {
+            return redirect('/dataMengajar/create')->with('status', 'Gagal menambahkan data');
+        }
     }
 
     /**
