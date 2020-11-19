@@ -13,7 +13,7 @@ class CreateTablePrestasi extends Migration
      */
     public function up()
     {
-        Schema::create('table_prestasi', function (Blueprint $table) {
+        Schema::create('prestasi', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_tentor');
             $table->string('tingkatan', 50);
