@@ -72,14 +72,15 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
+        $id = Auth::user()->id;
         $request->validate([
             'nama' => 'required',
             'email' => 'required',
             'password' => 'required',
             'telepon' => 'required',
-            'wa' => 'required',
+            'username' => 'required',
             'gender' => 'required',
             'tgl_lahir' => 'required',
             'alamat' => 'required',
@@ -88,11 +89,11 @@ class UsersController extends Controller
         try {
             $data['nama'] = $request['nama'];
             $data['telepon'] = $request['telepon'];
-            $data['wa'] = $request['wa'];
             $data['gender'] = $request['gender'];
             $data['tgl_lahir'] = $request['tgl_lahir'];
             $data['alamat'] = $request['alamat'];
             $akun['email'] = $request['email'];
+            $akun['username'] = $request['username'];
             $akun['password'] =  bcrypt($request['password']);
             User::where('id', $id)->update($akun);
             if ($role->role == "siswa") {
@@ -143,9 +144,9 @@ class UsersController extends Controller
         $user = Auth::user()->id;
         $role =  Auth::user()->role;
         if ($role == "siswa") {
-            $data = Siswa::join('users', 'users.id', 'data_siswa.id_akun')->where('data_siswa.id_akun', $user)->select('data_siswa.*', 'users.role', 'users.email')->first();
+            $data = Siswa::join('users', 'users.id', 'data_siswa.id_akun')->where('data_siswa.id_akun', $user)->select('data_siswa.*', 'users.role', 'users.email','users.username')->first();
         } else {
-            $data = Tentor::join('users', 'users.id', 'data_tentor.id_akun')->where('data_tentor.id_akun', $user)->select('data_tentor.*', 'users.role', 'users.email')->first();
+            $data = Tentor::join('users', 'users.id', 'data_tentor.id_akun')->where('data_tentor.id_akun', $user)->select('data_tentor.*', 'users.role', 'users.email','users.username')->first();
         }
 
         return response()->json(['data' => $data], 200);
@@ -156,14 +157,12 @@ class UsersController extends Controller
         $request->validate([
             'nama' => 'required',
             'email' => 'required',
+            'username' => 'required',
             'password' => 'required',
             'telepon' => 'required',
-            'wa' => 'required',
             'gender' => 'required',
             'tgl_lahir' => 'required',
             'alamat' => 'required',
-            'lattitude' => 'required',
-            'longitude' => 'required',
         ]);
 
         if (!$request->role) {
@@ -173,13 +172,13 @@ class UsersController extends Controller
         }
 
         $akun['email'] = $request['email'];
+        $akun['username'] = $request['username'];
         $akun['password'] = bcrypt($request['password']);
         $users = User::create($akun);
         $idAkun = $users->id;
         if ( $akun['role'] == "siswa") {
             $data['nama'] = $request['nama'];
             $data['telepon'] = $request['telepon'];
-            $data['wa'] = $request['wa'];
             $data['gender'] = $request['gender'];
             $data['tgl_lahir'] = $request['tgl_lahir'];
             $data['alamat'] = $request['alamat'];
@@ -188,7 +187,6 @@ class UsersController extends Controller
         } else {
             $data['nama'] = $request['nama'];
             $data['telepon'] = $request['telepon'];
-            $data['wa'] = $request['wa'];
             $data['gender'] = $request['gender'];
             $data['tgl_lahir'] = $request['tgl_lahir'];
             $data['alamat'] = $request['alamat'];
