@@ -129,6 +129,18 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
+                                            <label for="email2">Username</label>
+                                            <input type="email" value="{{ old('username') }}"
+                                                class="form-control  @error('email') is-invalid @enderror" name="username"
+                                                placeholder="example@gmail.com">
+                                            @error('username')
+                                                <label class="mt-1" style="color: red">{{ $message }}</label>
+                                            @enderror
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
                                             <label for="password">Password</label>
                                             <input type="password"
                                                 class="form-control  @error('password') is-invalid @enderror"
