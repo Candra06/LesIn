@@ -106,6 +106,24 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
+                                            <label for="email2">Username</label>
+                                            <input type="text" class="form-control" value="{{ $data->username }}" name="username"
+                                                placeholder="Username">
+
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="email2">Username</label>
+                                            <input type="email" class="form-control" value="{{ $data->username }}" name="email"
+                                                placeholder="example@gmail.com">
+
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
                                             <label for="password">Password</label>
                                             <input type="password" class="form-control" name="password"
                                                 placeholder="Password">
@@ -116,18 +134,15 @@
                                             <label for="password">Status</label>
                                             <select class="form-control" name="status" id="exampleFormControlSelect1">
                                                 <option>Pilih Status</option>
-                                                <option value="Aktif"  {{ $data->gender == 'Aktif' ? 'selected' : ''}}>Aktif</option>
-                                                <option value="Banned" {{ $data->gender == 'Banned' ? 'selected' : ''}}>Banned</option>
+                                                <option value="Aktif"  {{ $data->status == 'Aktif' ? 'selected' : ''}}>Aktif</option>
+                                                <option value="Banned" {{ $data->status == 'Banned' ? 'selected' : ''}}>Banned</option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
 
                             </div>
-                            <div class="card-action mt-3">
-                                <button type="submit" class="btn btn-success">Submit</button>
-                                <button type="reset" class="btn btn-danger">Cancel</button>
-                            </div>
+
                         </div>
                     </form>
                 </div>

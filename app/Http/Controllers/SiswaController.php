@@ -15,7 +15,7 @@ class SiswaController extends Controller
      */
     public function index()
     {
-        $data = Siswa::all();
+        $data = Siswa::join('users', 'users.id', 'data_siswa.id_akun')->select('data_siswa.*', 'users.username')->get();
         return view('siswa.index', compact('data'));
     }
 
@@ -40,21 +40,21 @@ class SiswaController extends Controller
         $request->validate([
             'nama' => 'required',
             'email' => 'required|email',
+            'username' => 'required',
             'password' => 'required',
             'telepon' => 'required',
-            'whatsapp' => 'required',
             'alamat' => 'required',
             'gender' => 'required',
             'tglLahir' => 'required',
         ]);
         try {
             $akun['email'] = $request['email'];
+            $akun['username'] = $request['username'];
             $akun['password'] = bcrypt($request['email']);
             $akunSiswa = User::create($akun);
             $siswa['id_akun'] = $akunSiswa->id;
             $siswa['nama'] = $request['nama'];
             $siswa['telepon'] = $request['telepon'];
-            $siswa['wa'] = $request['whatsapp'];
             $siswa['alamat'] = $request['alamat'];
             $siswa['gender'] = $request['gender'];
             $siswa['tgl_lahir'] = $request['tglLahir'];
@@ -73,7 +73,11 @@ class SiswaController extends Controller
      */
     public function show($id)
     {
-        //
+         // return $id;
+         $data = Siswa::join('users', 'users.id', 'data_siswa.id_akun')
+         ->where('data_siswa.id', $id)
+         ->select('data_siswa.*', 'users.email', 'users.username')->first();
+         return view('siswa.show', compact('data'));
     }
 
     /**
@@ -86,9 +90,9 @@ class SiswaController extends Controller
     {
         // return $id;
         $data = Siswa::join('users', 'users.id', 'data_siswa.id_akun')
-        ->where('data_siswa.id', $id)
-        ->select('data_siswa.*', 'users.email')->first();
-        return view('siswa.edit', compact('data'));
+         ->where('data_siswa.id', $id)
+         ->select('data_siswa.*', 'users.email', 'users.username')->first();
+         return view('siswa.show', compact('data'));
     }
 
     /**
@@ -109,11 +113,13 @@ class SiswaController extends Controller
             'gender' => 'required',
             'tglLahir' => 'required',
             'status' => 'required',
+            'username' => 'required',
         ]);
 
         try {
             $idAkun = Siswa::where('id', $siswa)->select('id_akun')->first();
             $akun['email'] = $request['email'];
+            $akun['username'] = $request['username'];
             $akun['password'] = bcrypt($request['email']);
             User::where('id', $idAkun->id_akun);
 

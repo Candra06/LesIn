@@ -46,7 +46,8 @@
             @endif
             <div class="row">
                 <div class="col-md-12">
-                    <form action="{{ url('/mapel') }}" method="POST">
+                    <form action="{{ url('/mapel/'.$mapel->id) }}" method="POST">
+                        @method('put')
                         @csrf
                         <div class="card">
                             <div class="card-header">
@@ -57,7 +58,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="email2">Nama Mapel</label>
-                                            <input type="text" value="{{ old('mapel') }}"
+                                            <input type="text" value="{{ $mapel->mapel }}"
                                                 class="form-control  @error('mapel') is-invalid @enderror" name="mapel"
                                                 placeholder="Nama Lengkap">
                                             @error('mapel')
@@ -72,11 +73,11 @@
                                             <select class="form-control @error('tingkatan') is-invalid @enderror"
                                                 name="tingkatan" id="tingkatan">
                                                 <option value="">Pilih Tingkatan</option>
-                                                <option value="SD" {{ old('tingkatan') == 'SD' ? 'selected' : '' }}>SD
+                                                <option value="SD" {{ $mapel->jenjang == 'SD' ? 'selected' : '' }}>SD
                                                 </option>
-                                                <option value="SMP" {{ old('tingkatan') == 'SMP' ? 'selected' : '' }}>SMP
+                                                <option value="SMP" {{ $mapel->jenjang == 'SMP' ? 'selected' : '' }}>SMP
                                                 </option>
-                                                <option value="SMA" {{ old('tingkatan') == 'SMA' ? 'selected' : '' }}>SMA
+                                                <option value="SMA" {{ $mapel->jenjang == 'SMA' ? 'selected' : '' }}>SMA
                                                 </option>
                                             </select>
                                             @error('tingkatan')
@@ -91,6 +92,8 @@
                                             <select class="form-control @error('kelas') is-invalid @enderror" name="kelas"
                                                 id="kelas">
                                                 <option value="">Pilih Kelas</option>
+
+
                                             </select>
                                             @error('kelas')
                                                 <label class="mt-1" style="color: red">{{ $message }}</label>
@@ -104,9 +107,9 @@
                                             <select class="form-control @error('status') is-invalid @enderror" name="status"
                                                 id="status">
                                                 <option value="">Pilih Status</option>
-                                                <option value="Aktif" {{ old('status') == 'Aktif' ? 'Selected' : '' }}>Aktif
+                                                <option value="Aktif" {{ $mapel->status == 'Aktif' ? 'Selected' : '' }}>Aktif
                                                 </option>
-                                                <option value="Banned" {{ old('status') == 'Banned' ? 'Selected' : '' }}>
+                                                <option value="Banned" {{ $mapel->status == 'Banned' ? 'Selected' : '' }}>
                                                     Banned</option>
                                             </select>
                                             @error('status')

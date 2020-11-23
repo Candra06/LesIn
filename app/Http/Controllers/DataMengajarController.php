@@ -18,7 +18,7 @@ class DataMengajarController extends Controller
     {
         $data = DataMengajar::join('data_tentor as dt', 'dt.id', 'data_mengajar.id_tentor')
         ->join('data_mapel', 'data_mapel.id', 'data_mengajar.id_mapel')
-        ->select('dt.nama', 'data_mapel.mapel', 'data_mapel.jenjang', 'data_mapel.kelas', 'data_mengajar.status')->get();
+        ->select('dt.nama', 'data_mapel.mapel', 'data_mapel.jenjang', 'data_mapel.kelas', 'data_mengajar.status', 'data_mengajar.id')->get();
         return view('dataMengajar.index', compact('data'));
     }
 
@@ -78,7 +78,9 @@ class DataMengajarController extends Controller
      */
     public function edit(DataMengajar $dataMengajar)
     {
-        //
+        $tentor = Tentor::where('status', 'Aktif')->get();
+        $mapel = Mapel::where('status', 'Aktif')->get();
+        return view('dataMengajar.edit', compact('dataMengajar', 'tentor', 'mapel'));
     }
 
     /**
@@ -90,7 +92,21 @@ class DataMengajarController extends Controller
      */
     public function update(Request $request, DataMengajar $dataMengajar)
     {
-        //
+        $request->validate([
+            'tentor' => 'required',
+            'mapel' => 'required',
+            'status' => 'required',
+        ]);
+
+        try {
+            $input['id_tentor'] = $request['tentor'];
+            $input['id_mapel'] = $request['mapel'];
+            $input['status'] = $request['status'];
+            DataMengajar::where('id', $dataMengajar->id)->update($input);
+            return redirect('/dataMengajar')->with('status', 'Berhasil menambahkan data');
+        } catch (\Throwable $th) {
+            return redirect('/dataMengajar/'.$dataMengajar->id.'/edit')->with('status', 'Gagal menambahkan data');
+        }
     }
 
     /**

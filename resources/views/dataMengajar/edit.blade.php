@@ -22,7 +22,7 @@
                             <i class="flaticon-right-arrow text-white"></i>
                         </li>
                         <li class="nav-item text-white">
-                            <a href="#" class="text-white">Tambah Data</a>
+                            <a href="#" class="text-white">Edit Data</a>
                         </li>
                     </ul>
                 </div>
@@ -46,11 +46,12 @@
             @endif
             <div class="row">
                 <div class="col-md-12">
-                    <form action="{{ url('/dataMengajar') }}" method="POST">
+                    <form action="{{ url('/dataMengajar/'.$dataMengajar->id) }}" method="POST">
+                        @method('put')
                         @csrf
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Tambah Data</h4>
+                                <h4 class="card-title">Edit Data</h4>
                             </div>
                             <div class="card-body">
                                 <div class="row">
@@ -61,7 +62,7 @@
                                                 name="tentor">
                                                 <option value="">Pilih Tentor</option>
                                                 @foreach ($tentor as $tn)
-                                                    <option value="{{ $tn->id }}" {{old('tentor') == $tn->id ? 'selected' : ''}}>{{ $tn->nama }}</option>
+                                                    <option value="{{ $tn->id }}" {{ $dataMengajar->id_tentor == $tn->id ? 'selected' : ''}}>{{ $tn->nama }}</option>
                                                 @endforeach
                                             </select>
                                             @error('tentor')
@@ -77,7 +78,7 @@
                                                 id="exampleFormControlSelect1">
                                                 <option value="">Pilih Mapel</option>
                                                 @foreach ($mapel as $tn)
-                                                    <option value="{{ $tn->id }}" {{old('mapel') == $tn->id ? 'selected' : ''}}>
+                                                    <option value="{{ $tn->id }}" {{ $dataMengajar->id_mapel == $tn->id ? 'selected' : ''}}>
                                                         {{ $tn->mapel . ' ' . $tn->jenjang . '(' . $tn->kelas . ')' }}
                                                     </option>
                                                 @endforeach
@@ -94,8 +95,8 @@
                                             <select class="form-control @error('status') is-invalid @enderror" name="status"
                                                 id="exampleFormControlSelect1">
                                                 <option value="">Pilih Status</option>
-                                                <option value="Aktif" {{old('status') == 'Aktif' ? 'selected' : ''}}>Aktif</option>
-                                                <option value="Banned" {{old('status') == 'Banned' ? 'selected' : ''}}>Tidak Aktif</option>
+                                                <option value="Aktif" {{ $dataMengajar->status == 'Aktif' ? 'selected' : ''}}>Aktif</option>
+                                                <option value="Banned" {{ $dataMengajar->status == 'Banned' ? 'selected' : ''}}>Tidak Aktif</option>
                                             </select>
                                             @error('status')
                                                 <label class="mt-1" style="color: red">{{ $message }}</label>

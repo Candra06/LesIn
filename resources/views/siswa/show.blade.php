@@ -22,7 +22,7 @@
                             <i class="flaticon-right-arrow text-white"></i>
                         </li>
                         <li class="nav-item text-white">
-                            <a href="#" class="text-white">Tambah Data</a>
+                            <a href="#" class="text-white">Detail Data</a>
                         </li>
                     </ul>
                 </div>
@@ -46,68 +46,51 @@
             @endif
             <div class="row">
                 <div class="col-md-12">
-                    <form action="{{ url('/siswa') }}" method="POST">
-                        @csrf
+
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Tambah Data</h4>
+                                <h4 class="card-title">{{$data->nama}}</h4>
                             </div>
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="email2">Nama</label>
-                                            <input type="text" class="form-control" name="nama" placeholder="Nama Lengkap">
-
+                                            <p>{{ $data->nama}}</p>
                                         </div>
 
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="password">Telepon</label>
-                                            <input type="text" class="form-control" name="telepon"
-                                                placeholder="Nomor Telephone">
+                                            <p>{{ $data->telepon}}</p>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="email2">Whatsapp</label>
-                                            <input type="text" class="form-control" name="whatsapp"
-                                                placeholder="Nomor Whatsapp">
 
-                                        </div>
-
-                                    </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="password">Gender</label>
-                                            <select class="form-control" name="gender" id="exampleFormControlSelect1">
-                                                <option>Pilih Gender</option>
-                                                <option value="laki-laki">Laki-Laki</option>
-                                                <option value="perempuan">Perempuan</option>
-                                            </select>
+                                            <p>{{ $data->gender == 'laki-laki' ? 'Laki-laki' : 'Perempuan' }}</p>
+
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="email2">Tanggal Lahir</label>
-                                            <input type="date" class="form-control" name="tglLahir"
-                                                placeholder="Enter Email">
-
+                                            <p>{{ date('d F Y', strtotime($data->tgl_lahir)) }}</p>
                                         </div>
 
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="password">Alamat</label>
-                                            <textarea name="alamat" id="" cols="3" class="form-control" rows="1"></textarea>
+                                        <p>{{ $data->alamat}}</p>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="email2">Email</label>
-                                            <input type="email" class="form-control" name="email"
-                                                placeholder="example@gmail.com">
+                                            <p>{{ $data->email }}</p>
 
                                         </div>
 
@@ -115,21 +98,21 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="email2">Username</label>
-                                            <input type="email" class="form-control" name="username"
-                                                placeholder="Username">
+                                            <p>{{ $data->username }}</p>
 
                                         </div>
 
                                     </div>
-
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="password">Password</label>
-                                            <input type="password" class="form-control" name="password"
-                                                placeholder="Password">
+                                            <label for="email2">Status</label>
+                                            <p>{{ $data->status }}</p>
+
                                         </div>
+
                                     </div>
                                 </div>
+
 
                             </div>
                             <div class="card-action mt-3">
@@ -137,7 +120,6 @@
                                 <button type="reset" class="btn btn-danger">Cancel</button>
                             </div>
                         </div>
-                    </form>
                 </div>
             </div>
         </div>

@@ -44,6 +44,7 @@
                                                 <th>Nama</th>
                                                 <th>Telepon</th>
                                                 <th>Gender</th>
+                                                <th>Username</th>
                                                 <th>Saldo</th>
                                                 <th>Aksi</th>
                                             </tr>
@@ -51,9 +52,10 @@
                                         <tbody>
                                             @foreach ($data as $item)
                                                 <tr>
-                                                    <td>{{$item->nama}}</td>
+                                                    <td><a href="{{ url('/tentor/'.$item->id)}}">{{$item->nama}}</a></td>
                                                     <td>{{$item->telepon}}</td>
                                                     <td>{{$item->gender}}</td>
+                                                    <td>{{$item->username}}</td>
                                                     <td>{{$item->saldo_dompet}}</td>
                                                     <td >
                                                         <a href="{{ url('/tentor/'.$item->id.'/edit')}}" class="btn btn-xs btn-primary"><i class="fas fa-edit"></i></a>

@@ -15,7 +15,7 @@ class TentorController extends Controller
      */
     public function index()
     {
-        $data = Tentor::all();
+        $data = Tentor::join('users', 'users.id', 'data_tentor.id_akun')->select('data_tentor.*', 'users.username')->get();
         return view('tentor.index', compact('data'));
     }
 
@@ -45,9 +45,11 @@ class TentorController extends Controller
             'gender' => 'required',
             'tgl_lahir' => 'required',
             'alamat' => 'required',
+            'username' => 'required',
         ]);
 
         $akun['email'] = $request['email'];
+        $akun['username'] = $request['username'];
         $akun['password'] = bcrypt($request['password']);
         $akun['role'] = 'tentor';
         $addAkun = User::create($akun);
@@ -80,7 +82,8 @@ class TentorController extends Controller
      */
     public function show(Tentor $tentor)
     {
-        //
+        $tentor = Tentor::join('users', 'users.id', 'data_tentor.id_akun')->where('data_tentor.id', $tentor->id)->select('users.email', 'users.username', 'data_tentor.*')->first();
+        return view('tentor.show', compact('tentor'));
     }
 
     /**
@@ -91,7 +94,8 @@ class TentorController extends Controller
      */
     public function edit(Tentor $tentor)
     {
-        //
+        $tentor = Tentor::join('users', 'users.id', 'data_tentor.id_akun')->where('data_tentor.id', $tentor->id)->select('users.email', 'users.username', 'data_tentor.*')->first();
+        return view('tentor.edit', compact('tentor'));
     }
 
     /**
@@ -103,7 +107,41 @@ class TentorController extends Controller
      */
     public function update(Request $request, Tentor $tentor)
     {
-        //
+        $request->validate([
+            'nama' => 'required|max:45',
+            'email' => 'required|max:45',
+            'password' => 'required',
+            'telepon' => 'required|max:13',
+            'gender' => 'required',
+            'tgl_lahir' => 'required',
+            'alamat' => 'required',
+            'username' => 'required',
+        ]);
+
+        $akun['email'] = $request['email'];
+        $akun['username'] = $request['username'];
+        $akun['password'] = bcrypt($request['password']);
+        $akun['role'] = 'tentor';
+        $addAkun = User::create($akun);
+
+        $updt['id_akun'] = $addAkun->id;
+        $updt['nama'] = $request['nama'];
+        $updt['telepon'] = $request['telepon'];
+        $updt['gender'] = $request['gender'];
+        $updt['tgl_lahir'] = $request['tgl_lahir'];
+        $updt['alamat'] = $request['alamat'];
+        $updt['motto'] = '-';
+        $updt['hobi'] = '-';
+        $updt['lattitude'] = '-';
+        $updt['longitude'] = '-';
+        $updt['saldo_dompet'] = 0;
+
+        try {
+            Tentor::where('id',$tentor->id)->update($updt);
+            return redirect('/tentor')->with('status', 'Berhasil mengubah data');
+        } catch (\Throwable $th) {
+            return redirect('/tentor/'.$tentor->id.'/edit')->with('status', $th);
+        }
     }
 
     /**

@@ -56,7 +56,7 @@
                     </div>
                     <div class="form-group">
                         <label for="password" class="placeholder"><b>Password</b></label>
-                        <a href="#" class="link float-right">Forget Password ?</a>
+                        {{-- <a href="#" class="link float-right">Forget Password ?</a> --}}
                         <div class="position-relative">
                             <input id="password" name="password" type="password" class="form-control" required>
                             <div class="show-password">
@@ -74,10 +74,7 @@
 
                     </div>
                 </form>
-                <div class="login-account">
-                    <span class="msg">Don't have an account yet ?</span>
-                    <a href="#" id="show-signup" class="link">Sign Up</a>
-                </div>
+
             </div>
         </div>
 

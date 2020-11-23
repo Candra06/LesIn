@@ -76,7 +76,7 @@ class MapelController extends Controller
      */
     public function edit(Mapel $mapel)
     {
-        //
+        return view('mapel.edit', compact('mapel'));
     }
 
     /**
@@ -88,7 +88,26 @@ class MapelController extends Controller
      */
     public function update(Request $request, Mapel $mapel)
     {
-        //
+        $request->validate([
+            'mapel' => 'required',
+            'tingkatan' => 'required',
+            'kelas' => 'required',
+            'status' => 'required',
+        ]);
+
+        try {
+
+            $input['mapel'] = $request['mapel'];
+            $input['jenjang'] = $request['tingkatan'];
+            $input['kelas'] = $request['kelas'];
+            $input['status'] = $request['status'];
+
+            Mapel::where('id',$mapel->id)->update($input);
+            return redirect('/mapel')->with('status', 'Berhasil menambahkan data');
+        } catch (\Throwable $th) {
+            return $th;
+            return redirect('/mapel/'.$mapel->id.'/edit')->with('status', 'Gagal mengubah data');
+        }
     }
 
     /**

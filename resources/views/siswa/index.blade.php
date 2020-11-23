@@ -9,9 +9,7 @@
                         <h2 class="text-white pb-2 fw-bold">Siswa</h2>
                         <h5 class="text-white op-7 mb-2">Free Bootstrap 4 Admin Dashboard</h5>
                     </div>
-                    <div class="ml-md-auto py-2 py-md-0">
-                        <a href="{{ url('/siswa/create') }}" class="btn btn-secondary btn-round">Tambah Data</a>
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -42,7 +40,7 @@
                                         <tr>
                                             <th>Nama</th>
                                             <th>Telepon</th>
-                                            <th>Whatsapp</th>
+                                            <th>Username</th>
                                             <th>Gender</th>
                                             <th>Aksi</th>
                                         </tr>
@@ -50,9 +48,9 @@
                                     <tbody>
                                         @foreach ($data as $item)
                                             <tr>
-                                                <td>{{ $item->nama }}</td>
+                                                <td><a href="{{ url('/siswa/'.$item->id)}}">{{ $item->nama }}</a></td>
                                                 <td>{{ $item->telepon}}</td>
-                                                <td>{{ $item->wa}}</td>
+                                                <td>{{ $item->username}}</td>
                                                 <td>{{ $item->gender == 'laki-laki' ? 'Laki-laki' : 'Perempuan' }}</td>
                                                 <td >
                                                     <a href="{{ url('/siswa/'.$item->id.'/edit')}}" class="btn btn-xs btn-primary"><i class="fas fa-edit"></i></a>
