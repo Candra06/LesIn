@@ -16,7 +16,7 @@
                             <i class="flaticon-right-arrow text-white"></i>
                         </li>
                         <li class="nav-item text-white">
-                            <a href="#" class="text-white">Data Siswa</a>
+                            <a href="{{url('/siswa')}}" class="text-white">Data Siswa</a>
                         </li>
                         <li class="separator text-white">
                             <i class="flaticon-right-arrow text-white"></i>
@@ -115,10 +115,7 @@
 
 
                             </div>
-                            <div class="card-action mt-3">
-                                <button type="submit" class="btn btn-success">Submit</button>
-                                <button type="reset" class="btn btn-danger">Cancel</button>
-                            </div>
+
                         </div>
                 </div>
             </div>
