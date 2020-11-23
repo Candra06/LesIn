@@ -16,7 +16,7 @@
                             <i class="flaticon-right-arrow text-white"></i>
                         </li>
                         <li class="nav-item text-white">
-                            <a href="#" class="text-white">Data Mapel</a>
+                            <a href="{{url('/mapel')}}" class="text-white">Data Mapel</a>
                         </li>
                         <li class="separator text-white">
                             <i class="flaticon-right-arrow text-white"></i>
