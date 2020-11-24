@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Lesi - Login</title>
+    <title>Lesin - Login</title>
     <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
     <link rel="icon" href="{{ url('/') }}/assets/img/icon.ico" type="image/x-icon" />
 
@@ -78,7 +78,7 @@
             </div>
         </div>
 
-        <div class="container container-signup animated fadeIn">
+        <!-- <div class="container container-signup animated fadeIn">
             <h3 class="text-center">Sign Up</h3>
             <div class="login-form">
                 <div class="form-group">
@@ -107,8 +107,8 @@
                             <i class="icon-eye"></i>
                         </div>
                     </div>
-                </div>
-                <div class="row form-sub m-0">
+                </div> -->
+                <!-- <div class="row form-sub m-0">
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input" name="agree" id="agree">
                         <label class="custom-control-label" for="agree">I Agree the terms and conditions.</label>
@@ -121,7 +121,7 @@
                     <div class="col-md-6">
                         <a href="#" class="btn btn-primary w-100 fw-bold">Sign Up</a>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
