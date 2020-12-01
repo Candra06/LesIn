@@ -26,7 +26,7 @@ class TentorController extends Controller
     public function getInfoTentor($tentor)
     {
         try {
-            $data = Tentor::where('id', $tentor)->first();
+            $data = Tentor::join('users', 'users.id', 'data_tentor.id_akun')->where('data_tentor.id', $tentor)->select('users.email', 'users.username', 'data_tentor.*')->first();
             return response()->json(['data' => $data], 200);
         } catch (\Throwable $th) {
             return response()->json(['error' => 'Unauthorized'], 401);

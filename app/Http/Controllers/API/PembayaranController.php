@@ -20,6 +20,7 @@ class PembayaranController extends Controller
         $request->validate([
             'id_kelas' => 'required',
             'harga_deal' => 'required',
+            'keterangan' => 'required',
             'bukti_tf' => 'file|between:0,2048|mimes:png,jpg,jpeg',
             'tanggal_bayar' => 'required',
             'jumlah_bayar' => 'required',
@@ -36,6 +37,7 @@ class PembayaranController extends Controller
             $log['tanggal_bayar'] = $request['tanggal_bayar'];
             $log['jumlah_bayar'] = $request['jumlah_bayar'];
             $log['created_by'] = $idSiswa->id;
+            $log['keterangan'] = $request['keterangan'];
             $log['confirmed_by'] = 0;
             $log['status'] = 'Pending';
             try {
@@ -60,12 +62,13 @@ class PembayaranController extends Controller
             $log['jumlah_bayar'] = $request['jumlah_bayar'];
             $log['created_by'] = $idSiswa->id;
             $log['confirmed_by'] = 0;
+            $log['keterangan'] = $request['keterangan'];
             $log['status'] = 'Pending';
             try {
                 LogPembayaran::create($log);
                 return response()->json(['data' => 'Berhasil menambahkan data'], 200);
             } catch (\Throwable $th) {
-                return response()->json(['error' => 'Unauthorized'], 401);
+                return response()->json(['error' => 'Unauthorized', 'message' => $th], 401);
             }
         }
     }
@@ -73,13 +76,31 @@ class PembayaranController extends Controller
     public function logPembayaran($kelas)
     {
         $data = LogPembayaran::leftJoin('data_pembayaran', 'data_pembayaran.id', 'log_pembayaran.id_pembayaran')->where('data_pembayaran.id_kelas', $kelas)
-        ->select('log_pembayaran.id_pembayaran', 'log_pembayaran.id as id', 'log_pembayaran.bukti_tf', 'log_pembayaran.tanggal_bayar', 'log_pembayaran.jumlah_bayar', 'log_pembayaran.created_by')->get();
+        ->select('log_pembayaran.id_pembayaran', 'log_pembayaran.id as id', 'log_pembayaran.bukti_tf', 'log_pembayaran.tanggal_bayar', 'log_pembayaran.jumlah_bayar', 'log_pembayaran.created_by', 'log_pembayaran.keterangan', 'log_pembayaran.status')->get();
         if ($data) {
             return response()->json(['data' => $data], 200);
         } else {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
+    }
+
+    public function listPembayaran()
+    {
+        $auth = Auth::user()->id;
+        $id = Siswa::where('id_akun', $auth)->select('id')->first();
+
+        $data = LogPembayaran::leftJoin('data_pembayaran', 'data_pembayaran.id', 'log_pembayaran.id_pembayaran')
+        ->leftJoin('kelas', 'kelas.id', 'data_pembayaran.id_kelas')
+        ->leftJoin('data_siswa', 'data_siswa.id', 'kelas.id_siswa')
+        ->where('data_siswa.id', $id->id)
+        ->select('log_pembayaran.keterangan', 'log_pembayaran.tanggal_bayar', 'log_pembayaran.jumlah_bayar', 'log_pembayaran.status', 'data_siswa.id')
+        ->get();
+        if ($data) {
+            return response()->json(['data' => $data], 200);
+        } else {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
     }
 
     public function konfirmasi(Request $request, $log)

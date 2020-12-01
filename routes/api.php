@@ -17,7 +17,7 @@ Route::post('login', 'API\UsersController@login');
 Route::post('register', 'API\UsersController@register');
 
 Route::group(['middleware' => 'auth:api'], function(){
-    Route::post('details', 'API\UsersController@details');
+    Route::post('details', 'API\UsersController@profil');
     Route::post('updateUser', 'API\UsersController@update');
     Route::get('mapel', 'API\MapelController@showMapel');
     Route::post('addMapel', 'API\MapelController@store');
@@ -43,4 +43,8 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::post('createChat', 'API\ChatController@createChat');
     Route::get('listRoom/{user}', 'API\ChatController@listChat');
     Route::get('detailChat/{room}', 'API\ChatController@detailChat');
+    Route::get('listJadwal', 'API\JadwalController@listJadwal');
+    Route::get('listPembayaran', 'API\PembayaranController@listPembayaran');
+    Route::post('absensi', 'API\AbsensiController@store');
+    Route::get('absensi/{kelas}', 'API\AbsensiController@index');
 });

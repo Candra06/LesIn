@@ -21,7 +21,7 @@ class MapelController extends Controller
 
     public function mapelByKey($kelas='', $mapel = '')
     {
-        $mapel = Mapel::where('kelas', $kelas)->where('mapel', $mapel)->get();
+        $mapel = Mapel::where('kelas', $kelas)->where('mapel', $mapel)->first();
         if ($mapel) {
             return response()->json(['data' => $mapel], 200);
         } else {

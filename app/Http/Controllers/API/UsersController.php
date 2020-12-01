@@ -104,7 +104,7 @@ class UsersController extends Controller
             return response()->json(['data' => 'Sukses'], $this->successStatus);
         } catch (\Throwable $th) {
             //throw $th;
-            return response()->json(['error' => 'Failed'], 401);
+            return response()->json(['error' => 'Failed', 'message' => $th], 401);
         }
     }
 
@@ -121,10 +121,11 @@ class UsersController extends Controller
 
     public function login(Request $request)
     {
-        $email = $request->email;
+        $username = $request->username;
         $password = $request->password;
         // dd($password);
-        $data = User::where('email',$email)->first();
+        // return $request;
+        $data = User::where('username',$username)->first();
         if($data){
             if(password_verify($password, $data->password)){
                 $success['token'] =  $data->createToken('nApp')->accessToken;
@@ -139,10 +140,11 @@ class UsersController extends Controller
 
     }
 
-    public function details()
+    public function profil()
     {
         $user = Auth::user()->id;
         $role =  Auth::user()->role;
+
         if ($role == "siswa") {
             $data = Siswa::join('users', 'users.id', 'data_siswa.id_akun')->where('data_siswa.id_akun', $user)->select('data_siswa.*', 'users.role', 'users.email','users.username')->first();
         } else {

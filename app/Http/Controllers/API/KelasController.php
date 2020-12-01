@@ -7,6 +7,7 @@ use App\Jadwal;
 use App\Kelas;
 use App\Siswa;
 use App\Tentor;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,7 +22,7 @@ class KelasController extends Controller
             'tarif' => 'required',
             'jumlah_pertemuan' => 'required',
             'hari' => 'required',
-            'jam' => 'required',
+            'tanggal' => 'required',
         ]);
 
         try {
@@ -31,18 +32,25 @@ class KelasController extends Controller
             $kelas['tarif'] = $request['tarif'];
             $kelas['jumlah_pertemuan'] = $request['jumlah_pertemuan'];
             $kelas['pertemuan'] = 0;
-            $kelas['status'] ='Pending';
+            $kelas['status'] = 'Pending';
 
             Kelas::create($kelas);
             $idKelas = Kelas::latest('id')->first();
+            $tanggal = $request['tanggal'];
+            for ($i = 0; $i < $request['jumlah_pertemuan']; $i++) {
+                $jadwal['id_kelas'] = $idKelas->id;
+                $jadwal['hari'] = $request['hari'];
+                $jadwal['tanggal'] = $tanggal;
+                Jadwal::create($jadwal);
+                $date = new DateTime($tanggal);
+                $date->modify('+7 day');
+                $tanggal = $date->format('Y-m-d');
+            }
 
-            $jadwal['id_kelas'] = $idKelas->id;
-            $jadwal['hari'] = $request['hari'];
-            $jadwal['jam'] = $request['jam'];
-            Jadwal::create($jadwal);
+
             return response()->json(['data' => 'Sukses'], 200);
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Gagal menambah data'], 401);
+            return response()->json(['error' => $th], 401);
         }
     }
 
@@ -52,32 +60,32 @@ class KelasController extends Controller
         $siswa = Siswa::where('id_akun', $id)->select('id')->first();
         $tentor = Tentor::where('id_akun', $id)->select('id')->first();
         $data = Kelas::join('data_tentor as dt', 'dt.id', 'kelas.id_tentor')
-        ->join('data_siswa as ds', 'ds.id', 'kelas.id_siswa')
-        ->join('data_mapel as dm', 'dm.id', 'kelas.id_mapel')
-        ->where('kelas.id_tentor', $tentor)
-        ->orWhere('kelas.id_siswa', $siswa)
-        ->select('kelas.jumlah_pertemuan', 'kelas.pertemuan', 'kelas.id','ds.nama', 'dt.nama','kelas.id_tentor', 'kelas.id_siswa', 'dm.mapel')
-        ->get();
+            ->join('data_siswa as ds', 'ds.id', 'kelas.id_siswa')
+            ->join('data_mapel as dm', 'dm.id', 'kelas.id_mapel')
+            ->join('users', 'users.id', 'dt.id_akun')
+            // ->where('kelas.id_tentor', $tentor->id)
+            ->Where('kelas.id_siswa', $siswa->id)
+            ->select('kelas.jumlah_pertemuan', 'kelas.pertemuan', 'users.username', 'kelas.id', 'ds.nama', 'dt.nama', 'kelas.id_tentor', 'kelas.id_siswa', 'dm.mapel')
+            ->get();
         if ($data) {
             return response()->json(['data' => $data], 200);
         } else {
             return response()->json(['error' => 'Gagal memuat data'], 401);
         }
-
     }
 
     public function detailKelasBySiswa($kelas)
     {
         $pertemuan = Kelas::join('jadwal', 'jadwal.id_kelas', 'kelas.id')->where('kelas.id', $kelas)
-        ->select('jadwal.hari', 'jadwal.jam', 'kelas.tarif', 'kelas.jumlah_pertemuan', 'kelas.pertemuan')->first();
+            ->select('jadwal.hari', 'kelas.tarif', 'kelas.jumlah_pertemuan', 'kelas.pertemuan')->first();
 
         $dataKelas = Kelas::join('data_mapel as dm', 'dm.id', 'kelas.id_mapel')->where('kelas.id', $kelas)
-        ->select('dm.mapel', 'dm.jenjang', 'dm.kelas', 'kelas.status', 'kelas.id as id_kelas')->first();
+            ->select('dm.mapel', 'dm.jenjang', 'dm.kelas', 'kelas.status', 'kelas.id as id_kelas')->first();
 
         $tentor = Kelas::join('data_tentor as dm', 'dm.id', 'kelas.id_tentor')
-        ->join('users', 'users.id', 'dm.id_akun')
-        ->where('kelas.id', $kelas)
-        ->select('dm.nama', 'dm.telepon', 'dm.wa', 'dm.alamat', 'users.email')->first();
+            ->join('users', 'users.id', 'dm.id_akun')
+            ->where('kelas.id', $kelas)
+            ->select('dm.nama', 'dm.telepon', 'dm.alamat', 'users.email')->first();
 
         $data = array();
         $data['pertemuan'] = $pertemuan;
@@ -88,22 +96,20 @@ class KelasController extends Controller
         } else {
             return response()->json(['error' => 'Gagal memuat data'], 401);
         }
-
-
     }
 
     public function detailKelasByTentor($kelas)
     {
         $pertemuan = Kelas::join('jadwal', 'jadwal.id_kelas', 'kelas.id')->where('kelas.id', $kelas)
-        ->select('jadwal.hari', 'jadwal.jam', 'kelas.tarif', 'kelas.jumlah_pertemuan', 'kelas.pertemuan')->first();
+            ->select('jadwal.hari', 'jadwal.jam', 'kelas.tarif', 'kelas.jumlah_pertemuan', 'kelas.pertemuan')->first();
 
         $dataKelas = Kelas::join('data_mapel as dm', 'dm.id', 'kelas.id_mapel')->where('kelas.id', $kelas)
-        ->select('dm.mapel', 'dm.jenjang', 'dm.kelas', 'kelas.status', 'kelas.id as id_kelas')->first();
+            ->select('dm.mapel', 'dm.jenjang', 'dm.kelas', 'kelas.status', 'kelas.id as id_kelas')->first();
 
         $siswa = Kelas::join('data_siswa as ds', 'ds.id', 'kelas.id_siswa')
-        ->join('users', 'users.id', 'ds.id_akun')
-        ->where('kelas.id', $kelas)
-        ->select('ds.nama', 'ds.telepon', 'ds.wa', 'ds.alamat', 'users.email')->first();
+            ->join('users', 'users.id', 'ds.id_akun')
+            ->where('kelas.id', $kelas)
+            ->select('ds.nama', 'ds.telepon', 'ds.wa', 'ds.alamat', 'users.email')->first();
 
         $data = array();
         $data['pertemuan'] = $pertemuan;
@@ -114,14 +120,9 @@ class KelasController extends Controller
         } else {
             return response()->json(['error' => 'Gagal memuat data'], 401);
         }
-
-
     }
 
     public function accKelas($kelas)
     {
-        
     }
-
-
 }
