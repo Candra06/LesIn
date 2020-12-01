@@ -42,7 +42,7 @@
                                             <th>Telepon</th>
                                             <th>Username</th>
                                             <th>Gender</th>
-                                            <th>Aksi</th>
+                                            <th>Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -52,10 +52,11 @@
                                                 <td>{{ $item->telepon}}</td>
                                                 <td>{{ $item->username}}</td>
                                                 <td>{{ $item->gender == 'laki-laki' ? 'Laki-laki' : 'Perempuan' }}</td>
-                                                <td >
+                                                <td>{{ $item->status}}</td>
+                                                <!-- <td >
                                                     <a href="{{ url('/siswa/'.$item->id.'/edit')}}" class="btn btn-xs btn-primary"><i class="fas fa-edit"></i></a>
 
-                                                </td>
+                                                </td> -->
                                             </tr>
                                         @endforeach
                                     </tbody>

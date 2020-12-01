@@ -16,7 +16,7 @@
                             <i class="flaticon-right-arrow text-white"></i>
                         </li>
                         <li class="nav-item text-white">
-                            <a href="#" class="text-white">Data Siswa</a>
+                            <a href="{{url('/siswa')}}" class="text-white">Data Siswa</a>
                         </li>
                         <li class="separator text-white">
                             <i class="flaticon-right-arrow text-white"></i>

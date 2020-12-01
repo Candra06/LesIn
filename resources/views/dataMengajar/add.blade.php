@@ -16,7 +16,7 @@
                             <i class="flaticon-right-arrow text-white"></i>
                         </li>
                         <li class="nav-item text-white">
-                            <a href="#" class="text-white">Data Mengajar</a>
+                            <a href="{{url('/dataMengajar')}}" class="text-white">Data Mengajar</a>
                         </li>
                         <li class="separator text-white">
                             <i class="flaticon-right-arrow text-white"></i>
