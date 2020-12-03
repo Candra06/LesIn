@@ -57,16 +57,26 @@ class KelasController extends Controller
     public function listKelas($user)
     {
         $id = Auth::user()->id;
-        $siswa = Siswa::where('id_akun', $id)->select('id')->first();
-        $tentor = Tentor::where('id_akun', $id)->select('id')->first();
-        $data = Kelas::join('data_tentor as dt', 'dt.id', 'kelas.id_tentor')
-            ->join('data_siswa as ds', 'ds.id', 'kelas.id_siswa')
-            ->join('data_mapel as dm', 'dm.id', 'kelas.id_mapel')
-            ->join('users', 'users.id', 'dt.id_akun')
-            // ->where('kelas.id_tentor', $tentor->id)
-            ->Where('kelas.id_siswa', $siswa->id)
-            ->select('kelas.jumlah_pertemuan', 'kelas.pertemuan', 'users.username', 'kelas.id', 'ds.nama', 'dt.nama', 'kelas.id_tentor', 'kelas.id_siswa', 'dm.mapel')
-            ->get();
+        if (Auth::user()->role == 'siswa') {
+            $siswa = Siswa::where('id_akun', $id)->select('id')->first();
+            $data = Kelas::join('data_tentor as dt', 'dt.id', 'kelas.id_tentor')
+                ->join('data_siswa as ds', 'ds.id', 'kelas.id_siswa')
+                ->join('data_mapel as dm', 'dm.id', 'kelas.id_mapel')
+                ->join('users', 'users.id', 'dt.id_akun')
+                ->Where('kelas.id_siswa', $siswa->id)
+                ->select('kelas.jumlah_pertemuan', 'kelas.pertemuan', 'users.username', 'kelas.id', 'ds.nama', 'dt.nama', 'kelas.id_tentor', 'kelas.id_siswa', 'dm.mapel')
+                ->get();
+        } else {
+            $tentor = Tentor::where('id_akun', $id)->select('id')->first();
+            $data = Kelas::join('data_tentor as dt', 'dt.id', 'kelas.id_tentor')
+                ->join('data_siswa as ds', 'ds.id', 'kelas.id_siswa')
+                ->join('data_mapel as dm', 'dm.id', 'kelas.id_mapel')
+                ->join('users', 'users.id', 'ds.id_akun')
+                ->where('kelas.id_tentor', $tentor->id)
+                ->select('kelas.jumlah_pertemuan', 'kelas.pertemuan', 'users.username', 'kelas.id', 'ds.nama as siswa', 'dt.nama', 'kelas.id_tentor', 'kelas.id_siswa', 'dm.mapel')
+                ->get();
+        }
+
         if ($data) {
             return response()->json(['data' => $data], 200);
         } else {

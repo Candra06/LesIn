@@ -14,7 +14,7 @@ class AddRatingTentor extends Migration
     public function up()
     {
         Schema::table('data_tentor', function (Blueprint $table) {
-            $table->string('rating', 3)->after('motto');
+            $table->string('rating', 3)->after('motto')->default(0);
         });
     }
 

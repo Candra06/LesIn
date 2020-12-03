@@ -17,7 +17,6 @@ class CreateJadwal extends Migration
             $table->id();
             $table->unsignedBigInteger('id_kelas');
             $table->string('hari');
-            $table->time('jam');
             $table->timestamps();
             $table->foreign('id_kelas')->references('id')->on('kelas');
         });

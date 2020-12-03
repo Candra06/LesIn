@@ -23,7 +23,7 @@ class CreateTableTentor extends Migration
             $table->text('alamat');
             $table->text('motto');
             $table->integer('saldo_dompet');
-            $table->integer('rating')->default(0);
+            // $table->integer('rating')->default(0);
             $table->timestamps();
             $table->foreign('id_akun')->references('id')->on('users');
         });

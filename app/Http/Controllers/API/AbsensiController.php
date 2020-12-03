@@ -18,7 +18,6 @@ class AbsensiController extends Controller
     {
         try {
             $dt = Absensi::where('id_kelas', $kelas)
-
                 ->get();
                 $tmp = [];
                 $dm = [];
