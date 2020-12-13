@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\DataMengajar;
 use App\Http\Controllers\Controller;
+use App\LogSaldo;
 use Illuminate\Http\Request;
 use App\Tentor;
 use Illuminate\Support\Facades\Auth;
@@ -39,7 +40,23 @@ class TentorController extends Controller
 
         try {
             $as = Auth::user()->id;
-            $data = Tentor::where('id_akun', $as)->select('id', 'saldo_dompet')->first();
+            $tmp = Tentor::where('id_akun', $as)->select('id', 'saldo_dompet')->first();
+            $log = LogSaldo::leftjoin('data_tentor as dt', 'dt.id', 'log_saldo.id_tentor')
+            ->where('log_saldo.id_tentor', $tmp->id)
+            ->select('dt.nama as tentor', 'log_saldo.*')
+            ->get();
+            $lg = array();
+            $logP = [];
+            foreach ($log as $key ) {
+                $lg['jumlah_saldo'] = $key->jumlah_saldo;
+                $lg['keterangan'] = $key->keterangan;
+                $lg['jenis'] = $key->jenis;
+                $lg['created_at'] = date('Y-m-d H:i:s', strtotime($key->created_at));
+                $logP[] = $lg;
+            }
+
+
+            $data = ['saldo' => $tmp, 'log' => $logP];
             return response()->json(['data' => $data], 200);
         } catch (\Throwable $th) {
             return response()->json(['error' => $th], 401);
