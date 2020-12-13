@@ -2,38 +2,31 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Absensi;
+use App\DataMengajar;
 use App\Http\Controllers\Controller;
-use App\Kelas;
+use App\Tentor;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
-class AbsensiController extends Controller
+class DataMengajarController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($kelas)
+    public function index()
     {
+        $auth = Auth::user()->id;
+        $id = Tentor::where('id_akun', $auth)->select('id')->first();
         try {
-            $dt = Absensi::where('id_kelas', $kelas)
-                ->get();
-                $tmp = [];
-                $dm = [];
-                foreach ($dt as $d) {
-                    $dm['created_at'] =date("Y-m-d", strtotime($d['created_at']));
-                    $dm['jam'] =date("H:i:s", strtotime($d['created_at']));
-                    $dm['id_kelas'] = $d['id_kelas'];
-                    $dm['jurnal'] = $d['jurnal'];
-                    $dm['kehadiran'] = $d['kehadiran'];
-                    $tmp[] = $dm;
-                }
-                $data = $tmp;
+            $data = DataMengajar::join('data_tentor as dt', 'dt.id', 'data_mengajar.id_tentor')
+                ->join('data_mapel', 'data_mapel.id', 'data_mengajar.id_mapel')
+                ->where('dt.id', $id->id)
+                ->select('dt.nama', 'data_mapel.mapel', 'data_mapel.jenjang', 'data_mapel.kelas', 'data_mengajar.status', 'data_mengajar.id')->get();
             return response()->json(['data' => $data], 200);
         } catch (\Throwable $th) {
-            return response()->json(['error' => $th], 401);
+            return response()->json(['error' => 'Unauthorized'], 401);
         }
     }
 
@@ -56,21 +49,18 @@ class AbsensiController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'id_kelas' => 'required',
-            'kehadiran' => 'required',
+            'tentor' => 'required',
+            'mapel' => 'required',
         ]);
 
-        $input['id_kelas'] = $request['id_kelas'];
-        $input['kehadiran'] = $request['kehadiran'];
-        $input['jurnal'] = $request['jurnal'];
         try {
-            Absensi::create($input);
-            $pertemuan = Kelas::where('id', $request['id_kelas'])->select('pertemuan')->first();
-            $up['pertemuan'] = $pertemuan->pertemuan + 1;
-            Kelas::where('id', $request['id_kelas'])->update($up);
-            return response()->json(['data' => 'Berhasil'], 200);
+            $input['id_tentor'] = $request['tentor'];
+            $input['id_mapel'] = $request['mapel'];
+            $input['status'] = 'Aktif';
+            DataMengajar::create($input);
+            return response()->json(['data' => 'Berhasil menambahkan data'], 200);
         } catch (\Throwable $th) {
-            return response()->json(['error' => $th], 400);
+            return response()->json(['error' => 'Gagal menambah data', 'pesan' => $th], 401);
         }
     }
 
@@ -116,6 +106,11 @@ class AbsensiController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            DataMengajar::where('id', $id)->delete();
+            return response()->json(['data' => 'sukses'],200);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => 'Gagal menghapus data', 'pesan' => $th], 401);
+        }
     }
 }

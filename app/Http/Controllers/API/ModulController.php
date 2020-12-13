@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Absensi;
 use App\Http\Controllers\Controller;
-use App\Kelas;
+use App\Modul;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
-class AbsensiController extends Controller
+class ModulController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,24 +17,13 @@ class AbsensiController extends Controller
      */
     public function index($kelas)
     {
-        try {
-            $dt = Absensi::where('id_kelas', $kelas)
-                ->get();
-                $tmp = [];
-                $dm = [];
-                foreach ($dt as $d) {
-                    $dm['created_at'] =date("Y-m-d", strtotime($d['created_at']));
-                    $dm['jam'] =date("H:i:s", strtotime($d['created_at']));
-                    $dm['id_kelas'] = $d['id_kelas'];
-                    $dm['jurnal'] = $d['jurnal'];
-                    $dm['kehadiran'] = $d['kehadiran'];
-                    $tmp[] = $dm;
-                }
-                $data = $tmp;
+        $data = Modul::where('id_kelas', $kelas)->get();
+        if ($data) {
             return response()->json(['data' => $data], 200);
-        } catch (\Throwable $th) {
-            return response()->json(['error' => $th], 401);
+        } else {
+            return response()->json(['error' => 'Failed load'], 401);
         }
+
     }
 
     /**
@@ -44,7 +33,7 @@ class AbsensiController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -55,23 +44,30 @@ class AbsensiController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'id_kelas' => 'required',
-            'kehadiran' => 'required',
-        ]);
-
+        $request->validate(
+            [
+                'judul' => 'max:50|required',
+                'id_kelas' => 'required',
+                'id_tentor' => 'required',
+                'materi' => 'required',
+                'file' => 'file|max:10000|mimes:doc,docx,pdf'
+            ]
+        );
+        $fileType = $request->file('file')->extension();
+        $name =  Str::random(8) . '.' . $fileType;
+        $input['judul'] = $request['judul'];
         $input['id_kelas'] = $request['id_kelas'];
-        $input['kehadiran'] = $request['kehadiran'];
-        $input['jurnal'] = $request['jurnal'];
+        $input['id_tentor'] = $request['id_tentor'];
+        $input['materi'] = $request['materi'];
+        $input['file'] = Storage::putFileAs('file_modul', $request->file('file'), $name);
+
         try {
-            Absensi::create($input);
-            $pertemuan = Kelas::where('id', $request['id_kelas'])->select('pertemuan')->first();
-            $up['pertemuan'] = $pertemuan->pertemuan + 1;
-            Kelas::where('id', $request['id_kelas'])->update($up);
+            Modul::create($input);
             return response()->json(['data' => 'Berhasil'], 200);
         } catch (\Throwable $th) {
-            return response()->json(['error' => $th], 400);
+            return response()->json(['error' => $th], 401);
         }
+
     }
 
     /**

@@ -6,6 +6,7 @@ use App\DataMengajar;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Tentor;
+use Illuminate\Support\Facades\Auth;
 
 class TentorController extends Controller
 {
@@ -33,6 +34,19 @@ class TentorController extends Controller
         }
     }
 
+    public function getSaldo()
+    {
+
+        try {
+            $as = Auth::user()->id;
+            $data = Tentor::where('id_akun', $as)->select('id', 'saldo_dompet')->first();
+            return response()->json(['data' => $data], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th], 401);
+        }
+        # code...
+    }
+
     public function addDataMengajar(Request $request)
     {
         $request->validate([
@@ -55,11 +69,10 @@ class TentorController extends Controller
     {
         $dataMengajar = DataMengajar::join('data_tentor as dt', 'dt.id', 'data_mengajar.id_tentor')->where('id_mapel', $mapel)->get();
         if ($dataMengajar) {
-            return response()->json(['data' => $dataMengajar],200);
+            return response()->json(['data' => $dataMengajar], 200);
         } else {
             return response()->json(['error' => 'Failed getting data'], 401);
         }
-
     }
 
     public function deleteDataMengajar($id)

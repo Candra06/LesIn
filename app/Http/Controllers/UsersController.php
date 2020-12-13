@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Kelas;
 use App\Siswa;
+use App\Tentor;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -22,7 +24,10 @@ class UsersController extends Controller
     public function dashboard()
     {
         // $data =
-        return view('dashboard.index');
+        $siswa = Siswa::count();
+        $tentor = Tentor::count();
+        $kelas = Kelas::count();
+        return view('dashboard.index', compact('siswa', 'tentor', 'kelas'));
     }
 
     public function login(Request $request)

@@ -9,32 +9,21 @@ use App\Siswa;
 use App\Tentor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class ChatController extends Controller
 {
-    public function listChat($user)
+    public function listChat()
     {
         $as = Auth::user()->id;
         $role = Auth::user()->role;
-
-        $id = Siswa::where('id_akun', $as)->select('id')->first();
-        $var = RoomChat::where('created_by', $id->id)
-            ->select('id')
-            ->get();
-        $data = array();
-        foreach ($var as $v) {
-            $data[] = Chat::join('data_tentor as dt', 'dt.id', 'detail_chat.id_tentor')
-                ->where('id_room', $v->id)
-                ->select('detail_chat.message', 'detail_chat.created_at', 'dt.nama', 'detail_chat.id_room', 'detail_chat.status')
-                ->orderBy('created_at', 'DESC')->first();
-        }
-        return response()->json(['data' => $data], 200);
+        // return $as . ' ' .$role;
         if ($role == 'siswa') {
             $id = Siswa::where('id_akun', $as)->select('id')->first();
             $var = RoomChat::where('created_by', $id->id)
+                ->orWhere('receiver', $id->id)
                 ->select('id')
                 ->get();
+                // return $var;
             $data = array();
             foreach ($var as $v) {
                 $data[] = Chat::join('data_tentor as dt', 'dt.id', 'detail_chat.id_tentor')
@@ -42,9 +31,20 @@ class ChatController extends Controller
                     ->select('detail_chat.message', 'detail_chat.created_at', 'dt.nama', 'detail_chat.id_room', 'detail_chat.status')
                     ->orderBy('created_at', 'DESC')->first();
             }
+            // return $data;
+            $tmp = array();
+            foreach ($data as $key) {
+                $tmp['message'] = $key->message;
+                $tmp['created_at'] =  date('Y-m-d H:i:s', strtotime($key->message));
+                $tmp['nama'] = $key->nama;
+                $tmp['id_room'] = $key->id_room;
+                $tmp['status'] = $key->status;
+            }
+            $pesan[] = $tmp;
         } else {
             $id = Tentor::where('id_akun', $as)->select('id')->first();
             $var = RoomChat::where('created_by', $id->id)
+                ->orWhere('receiver', $id->id)
                 ->select('id')
                 ->get();
             $data = array();
@@ -54,11 +54,21 @@ class ChatController extends Controller
                     ->select('detail_chat.message', 'detail_chat.created_at', 'ds.nama', 'detail_chat.id_room', 'detail_chat.status')
                     ->orderBy('created_at', 'DESC')->first();
             }
+            $tmp = array();
+            foreach ($data as $key) {
+                $tmp['message'] = $key->message;
+                $tmp['created_at'] =  date('Y-m-d H:i:s', strtotime($key->message));
+                $tmp['nama'] = $key->nama;
+                $tmp['id_room'] = $key->id_room;
+                $tmp['status'] = $key->status;
+            }
+            $pesan[] = $tmp;
+
         }
 
         try {
 
-            return response()->json(['data' => $data], 200);
+            return response()->json(['data' => $pesan], 200);
         } catch (\Throwable $th) {
             return response()->json(['error' => $th], 401);
         }
@@ -75,10 +85,12 @@ class ChatController extends Controller
         $cek = RoomChat::where('created_by', $request['id_siswa'])->where('receiver',  $request['id_tentor'])->first();
         try {
             if ($cek) {
+                $idRoom = $cek->id;
                 $detail['id_room'] = $cek->id;
                 $detail['id_siswa'] = $request['id_siswa'];
                 $detail['id_tentor'] = $request['id_tentor'];
                 $detail['message'] = $request['message'];
+                $detail['created_by'] = $request['created_by'];
                 $detail['status'] = 'Diterima';
                 Chat::create($detail);
             } else {
@@ -90,11 +102,13 @@ class ChatController extends Controller
                 $detail['id_siswa'] = $request['id_siswa'];
                 $detail['id_tentor'] = $request['id_tentor'];
                 $detail['message'] = $request['message'];
+                $detail['created_by'] = $request['created_by'];
                 $detail['status'] = 'Diterima';
                 Chat::create($detail);
             }
-            return response()->json(['data' => 'Sukses'], 200);
+            return response()->json(['data' => 'Sukses', 'room' => $idRoom], 200);
         } catch (\Throwable $th) {
+            return $th;
             return response()->json(['error' => $th], 401);
         }
     }

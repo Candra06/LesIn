@@ -29,7 +29,7 @@ class PembayaranController extends Controller
         $idSiswa = Siswa::where('id_akun', $user)->select('id')->first();
         $fileType = $request->file('bukti_tf')->extension();
         $name = Str::random(8) . '.' . $fileType;
-
+        
         $cek = Pembayaran::where('id_kelas', $request['id_kelas'])->first();
         if ($cek) {
             $log['id_pembayaran'] = $cek->id;

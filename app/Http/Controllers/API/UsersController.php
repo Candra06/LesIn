@@ -99,6 +99,8 @@ class UsersController extends Controller
             if ($role->role == "siswa") {
                 Siswa::where('id_akun', $id)->update($data);
             } else {
+                $data['hobi'] = $request['hobi'];
+                $data['motto'] = $request['motto'];
                 Tentor::where('id_akun', $id)->update($data);
             }
             return response()->json(['data' => 'Sukses'], $this->successStatus);

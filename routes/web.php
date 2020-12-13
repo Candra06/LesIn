@@ -24,4 +24,6 @@ Route::group(['middleware' => 'Admin'], function () {
     Route::resource('/user', 'UsersController');
     Route::resource('/mapel', 'MapelController');
     Route::resource('/dataMengajar', 'DataMengajarController');
+    Route::get('/jadwal', 'JadwalController@index');
+    Route::resource('/pembayaran', 'PembayaranController');
 });

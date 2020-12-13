@@ -105,7 +105,7 @@ class MapelController extends Controller
             Mapel::where('id',$mapel->id)->update($input);
             return redirect('/mapel')->with('status', 'Berhasil menambahkan data');
         } catch (\Throwable $th) {
-            return $th;
+            // return $th;
             return redirect('/mapel/'.$mapel->id.'/edit')->with('status', 'Gagal mengubah data');
         }
     }

@@ -24,6 +24,7 @@ class RiwayatPendidikanController extends Controller
             'id_tentor' =>'required',
             'jenjang_pendidikan' =>'required',
             'status_pendidikan' =>'required',
+            'nama_sekolah' =>'required',
         ]);
 
        try {
@@ -31,6 +32,8 @@ class RiwayatPendidikanController extends Controller
         $input['id_tentor'] = $request['id_tentor'];
         $input['jenjang_pendidikan'] = $request['jenjang_pendidikan'];
         $input['status_pendidikan'] = $request['status_pendidikan'];
+        $input['nama_sekolah'] = $request['nama_sekolah'];
+        $input['tahun_lulus'] = $request['tahun_lulus'];
         if (!$request['tahun_lulus']) {
             $input['tahun_lulus'] = '-';
         }else{

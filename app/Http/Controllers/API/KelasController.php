@@ -111,7 +111,7 @@ class KelasController extends Controller
     public function detailKelasByTentor($kelas)
     {
         $pertemuan = Kelas::join('jadwal', 'jadwal.id_kelas', 'kelas.id')->where('kelas.id', $kelas)
-            ->select('jadwal.hari', 'jadwal.jam', 'kelas.tarif', 'kelas.jumlah_pertemuan', 'kelas.pertemuan')->first();
+            ->select('jadwal.hari', 'kelas.tarif', 'kelas.jumlah_pertemuan', 'kelas.pertemuan')->first();
 
         $dataKelas = Kelas::join('data_mapel as dm', 'dm.id', 'kelas.id_mapel')->where('kelas.id', $kelas)
             ->select('dm.mapel', 'dm.jenjang', 'dm.kelas', 'kelas.status', 'kelas.id as id_kelas')->first();
@@ -119,7 +119,7 @@ class KelasController extends Controller
         $siswa = Kelas::join('data_siswa as ds', 'ds.id', 'kelas.id_siswa')
             ->join('users', 'users.id', 'ds.id_akun')
             ->where('kelas.id', $kelas)
-            ->select('ds.nama', 'ds.telepon', 'ds.wa', 'ds.alamat', 'users.email')->first();
+            ->select('ds.nama', 'ds.telepon', 'ds.alamat', 'users.email')->first();
 
         $data = array();
         $data['pertemuan'] = $pertemuan;

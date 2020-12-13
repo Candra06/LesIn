@@ -13,10 +13,11 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
 Route::post('login', 'API\UsersController@login');
 Route::post('register', 'API\UsersController@register');
 
-Route::group(['middleware' => 'auth:api'], function(){
+Route::group(['middleware' => 'auth:api'], function () {
     Route::post('details', 'API\UsersController@profil');
     Route::post('updateUser', 'API\UsersController@update');
     Route::get('mapel', 'API\MapelController@showMapel');
@@ -27,6 +28,7 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::post('addInfo/{tentor}', 'API\TentorController@addInfoTentor');
     Route::get('getInfo/{tentor}', 'API\TentorController@getInfoTentor');
     Route::post('addDataMengajar', 'API\TentorController@addDataMengajar');
+    Route::get('getDataMengajar', 'API\DataMengajarController@index');
     Route::get('getTentor/{mapel}', 'API\TentorController@getListTentor');
     Route::post('addPrestasi', 'API\PrestasiController@addPrestasi');
     Route::get('getPrestasi/{tentor}', 'API\PrestasiController@getPrestasi');
@@ -41,10 +43,13 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::delete('dataMengajar/{id}', 'API\TentorController@deleteDataMengajar');
     Route::delete('pendidikan/{id}', 'API\RiwayatPendidikanController@delete');
     Route::post('createChat', 'API\ChatController@createChat');
-    Route::get('listRoom/{user}', 'API\ChatController@listChat');
+    Route::get('listRoom', 'API\ChatController@listChat');
     Route::get('detailChat/{room}', 'API\ChatController@detailChat');
     Route::get('listJadwal', 'API\JadwalController@listJadwal');
     Route::get('listPembayaran', 'API\PembayaranController@listPembayaran');
     Route::post('absensi', 'API\AbsensiController@store');
     Route::get('absensi/{kelas}', 'API\AbsensiController@index');
+    Route::get('modul/{kelas}', 'API\ModulController@index');
+    Route::post('modul', 'API\ModulController@store');
+    Route::get('saldo', 'API\TentorController@getSaldo');
 });
