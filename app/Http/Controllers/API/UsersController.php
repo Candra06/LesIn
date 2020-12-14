@@ -101,6 +101,8 @@ class UsersController extends Controller
             } else {
                 $data['hobi'] = $request['hobi'];
                 $data['motto'] = $request['motto'];
+                $data['lattitude'] = $request['lattitude'];
+                $data['longitude'] = $request['longitude'];
                 Tentor::where('id_akun', $id)->update($data);
             }
             return response()->json(['data' => 'Sukses'], $this->successStatus);
@@ -209,6 +211,48 @@ class UsersController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
+    }
+
+    public function requestPassword(Request $request)
+    {
+        $username = $request->username;
+        $email = $request->email;
+
+        $data = User::where('username',$username)
+        ->where('email', $email)
+        ->first();
+        if($data){
+            // if(password_verify($password, $data->password)){
+            //     $success['token'] =  $data->createToken('nApp')->accessToken;
+                return response()->json(['data' => 'Username dan Email terdaftar', 'id' => $data->id], $this->successStatus);
+            // }else{
+            //     return response()->json(['error' => bcrypt($password)], 401);
+            // }
+        }
+        else{
+            return response()->json(['error' => 'Email dan Username tidak terdaftar'], 401);
+        }
+    }
+    public function resetPassword(Request $request)
+    {
+        $password = $request->password;
+        $id = $request->id;
+        $update = [
+            'password' => bcrypt($password)
+        ];
+        $data = User::where('id',$id)
+        ->update($update);
+        if($data){
+            // if(password_verify($password, $data->password)){
+            //     $success['token'] =  $data->createToken('nApp')->accessToken;
+                return response()->json(['data' => 'Berhasil memperbarui password'], $this->successStatus);
+            // }else{
+            //     return response()->json(['error' => bcrypt($password)], 401);
+            // }
+        }
+        else{
+            return response()->json(['error' => 'Gagal'], 401);
+        }
     }
 
 }

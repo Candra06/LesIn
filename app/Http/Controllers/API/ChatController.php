@@ -92,6 +92,7 @@ class ChatController extends Controller
                 $detail['message'] = $request['message'];
                 $detail['created_by'] = $request['created_by'];
                 $detail['status'] = 'Diterima';
+                $detail['created_at'] = date('Y-m-d H:i:s');
                 Chat::create($detail);
             } else {
                 $room['created_by'] = $request['id_siswa'];
@@ -104,6 +105,7 @@ class ChatController extends Controller
                 $detail['message'] = $request['message'];
                 $detail['created_by'] = $request['created_by'];
                 $detail['status'] = 'Diterima';
+                $detail['created_at'] = date('Y-m-d H:i:s');
                 Chat::create($detail);
             }
             return response()->json(['data' => 'Sukses', 'room' => $idRoom], 200);

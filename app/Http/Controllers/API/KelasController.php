@@ -64,7 +64,7 @@ class KelasController extends Controller
                 ->join('data_mapel as dm', 'dm.id', 'kelas.id_mapel')
                 ->join('users', 'users.id', 'dt.id_akun')
                 ->Where('kelas.id_siswa', $siswa->id)
-                ->select('kelas.jumlah_pertemuan', 'kelas.pertemuan', 'users.username', 'kelas.id', 'ds.nama', 'dt.nama', 'kelas.id_tentor', 'kelas.id_siswa', 'dm.mapel')
+                ->select('kelas.jumlah_pertemuan', 'kelas.pertemuan', 'users.username', 'kelas.id', 'ds.nama', 'dt.nama', 'kelas.id_tentor', 'kelas.id_siswa', 'dm.mapel', 'kelas.harga_deal')
                 ->get();
         } else {
             $tentor = Tentor::where('id_akun', $id)->select('id')->first();
@@ -73,7 +73,7 @@ class KelasController extends Controller
                 ->join('data_mapel as dm', 'dm.id', 'kelas.id_mapel')
                 ->join('users', 'users.id', 'ds.id_akun')
                 ->where('kelas.id_tentor', $tentor->id)
-                ->select('kelas.jumlah_pertemuan', 'kelas.pertemuan', 'users.username', 'kelas.id', 'ds.nama as siswa', 'dt.nama', 'kelas.id_tentor', 'kelas.id_siswa', 'dm.mapel')
+                ->select('kelas.jumlah_pertemuan', 'kelas.pertemuan', 'users.username', 'kelas.id', 'ds.nama as siswa', 'dt.nama', 'kelas.id_tentor', 'kelas.id_siswa', 'dm.mapel','kelas.harga_deal')
                 ->get();
         }
 
@@ -90,12 +90,12 @@ class KelasController extends Controller
             ->select('jadwal.hari', 'kelas.tarif', 'kelas.jumlah_pertemuan', 'kelas.pertemuan')->first();
 
         $dataKelas = Kelas::join('data_mapel as dm', 'dm.id', 'kelas.id_mapel')->where('kelas.id', $kelas)
-            ->select('dm.mapel', 'dm.jenjang', 'dm.kelas', 'kelas.status', 'kelas.id as id_kelas')->first();
+            ->select('dm.mapel', 'dm.jenjang', 'dm.kelas', 'kelas.status', 'kelas.id as id_kelas', 'kelas.harga_deal')->first();
 
         $tentor = Kelas::join('data_tentor as dm', 'dm.id', 'kelas.id_tentor')
             ->join('users', 'users.id', 'dm.id_akun')
             ->where('kelas.id', $kelas)
-            ->select('dm.nama', 'dm.telepon', 'dm.alamat', 'users.email')->first();
+            ->select('dm.nama', 'dm.telepon', 'dm.alamat', 'users.email', 'dm.id')->first();
 
         $data = array();
         $data['pertemuan'] = $pertemuan;
@@ -114,7 +114,7 @@ class KelasController extends Controller
             ->select('jadwal.hari', 'kelas.tarif', 'kelas.jumlah_pertemuan', 'kelas.pertemuan')->first();
 
         $dataKelas = Kelas::join('data_mapel as dm', 'dm.id', 'kelas.id_mapel')->where('kelas.id', $kelas)
-            ->select('dm.mapel', 'dm.jenjang', 'dm.kelas', 'kelas.status', 'kelas.id as id_kelas')->first();
+            ->select('dm.mapel', 'dm.jenjang', 'dm.kelas', 'kelas.status', 'kelas.id as id_kelas', 'kelas.harga_deal')->first();
 
         $siswa = Kelas::join('data_siswa as ds', 'ds.id', 'kelas.id_siswa')
             ->join('users', 'users.id', 'ds.id_akun')

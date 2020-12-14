@@ -130,7 +130,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="email2">Username</label>
-                                            <input type="email" value="{{ old('username') }}"
+                                            <input type="text" value="{{ old('username') }}"
                                                 class="form-control  @error('email') is-invalid @enderror" name="username"
                                                 placeholder="example@gmail.com">
                                             @error('username')

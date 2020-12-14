@@ -49,7 +49,7 @@
                                         @foreach ($data as $item)
                                             <tr>
                                                 <td><a href="{{ url('/pembayaran/'.$item->id)}}">{{ $item->nama }}</a></td>
-                                                <td>{{ $item->jumlah_bayar}}</td>
+                                                <td>{{ Helper::uang($item->jumlah_bayar)}}</td>
                                                 <td>{{ $item->keterangan}}</td>
                                                 <td>{{ Helper::waktu( $item->tanggal_bayar) }}</td>
                                                 <td>{{ $item->status}}</td>

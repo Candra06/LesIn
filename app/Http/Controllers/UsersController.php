@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Kelas;
+use App\Rekening;
 use App\Siswa;
 use App\Tentor;
 use App\User;
@@ -27,7 +28,8 @@ class UsersController extends Controller
         $siswa = Siswa::count();
         $tentor = Tentor::count();
         $kelas = Kelas::count();
-        return view('dashboard.index', compact('siswa', 'tentor', 'kelas'));
+        $saldo = Rekening::sum('saldo');
+        return view('dashboard.index', compact('siswa', 'tentor', 'kelas', 'saldo'));
     }
 
     public function login(Request $request)

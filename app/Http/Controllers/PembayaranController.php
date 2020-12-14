@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Kelas;
 use App\LogPembayaran;
 use App\LogSaldo;
+use App\Rekening;
 use App\Tentor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +23,7 @@ class PembayaranController extends Controller
             ->leftJoin('data_siswa as ds', 'ds.id', 'log_pembayaran.created_by')
             ->select('ds.nama', 'log_pembayaran.jumlah_bayar', 'log_pembayaran.status', 'log_pembayaran.tanggal_bayar', 'log_pembayaran.id', 'log_pembayaran.keterangan')
             ->get();
-        return view('pembayaran.index', compact('data'));
+        return view('pembayaran.listPembayaran', compact('data'));
     }
 
     /**
@@ -92,12 +93,16 @@ class PembayaranController extends Controller
             ->where('status', 'Confirmed')
             ->sum('jumlah_bayar');
         $bg_tentor = $log->harga_deal * (70 / 100);
-        $total_cek = intval($log->jumlah_bayar) + $sum_pemb;
+        $total_cek = $log->jumlah_bayar + $sum_pemb;
         $saldo = Tentor::where('id', $log->id_tentor)->first();
+
+        $dp = $log->harga_deal * (70 / 100);
 
         if ($request['status'] == 'Confirmed') {
             // nambahkan saldo admin
-
+            $rek = Rekening::where('id', $log->id_rekening)->select('saldo')->first();
+            $add_saldo = $rek->saldo + $log->jumlah_bayar;
+            Rekening::where('id', $log->id_rekening)->update(['saldo'=>$add_saldo]);
             if ($total_cek <= $bg_tentor) {
                 return 'if';
                 $saldo_tentor = $saldo->saldo_dompet + $log->jumlah_bayar;
@@ -128,7 +133,7 @@ class PembayaranController extends Controller
         }
 
         try {
-            if ($up['status'] == 'Confirmed' && $log->status == 'Pending') {
+            if ($up['status'] == 'Confirmed' && $log->status == 'Pending' &&  intval($log->jumlah_bayar) >= intval($dp)) {
                 Kelas::where('id', $log->id)->update(['status' => 'Aktif']);
             }
 

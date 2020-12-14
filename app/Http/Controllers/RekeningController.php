@@ -14,7 +14,8 @@ class RekeningController extends Controller
      */
     public function index()
     {
-        //
+        $data = Rekening::all();
+        return view('rekening.index', compact('data'));
     }
 
     /**
@@ -24,7 +25,7 @@ class RekeningController extends Controller
      */
     public function create()
     {
-        //
+        return view('rekening.add');
     }
 
     /**
@@ -35,7 +36,25 @@ class RekeningController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nomor_rekening' => 'required',
+            'bank' => 'required',
+            'nama_rekening' => 'required',
+            'saldo' => 'required|numeric',
+        ]);
+
+        $input['nomor_rekening']= $request['nomor_rekening'];
+        $input['bank']= $request['bank'];
+        $input['nama_rekening']= $request['nama_rekening'];
+        $input['saldo']= $request['saldo'];
+        $input['created_at']= date('Y-m-d H:i:s');
+        try {
+            Rekening::create($input);
+            return redirect('/rekening')->with('status', 'Berhasil menambahkan data');
+        } catch (\Throwable $th) {
+            return $th;
+            return redirect('/rekening/create')->with('status', 'Gagal menambahkan data');
+        }
     }
 
     /**
@@ -57,7 +76,7 @@ class RekeningController extends Controller
      */
     public function edit(Rekening $rekening)
     {
-        //
+        return view('rekening.edit', compact('rekening'));
     }
 
     /**
@@ -69,7 +88,24 @@ class RekeningController extends Controller
      */
     public function update(Request $request, Rekening $rekening)
     {
-        //
+        $request->validate([
+            'nomor_rekening' => 'required',
+            'bank' => 'required',
+            'nama_rekening' => 'required',
+            'saldo' => 'required|numeric',
+        ]);
+
+        $update['nomor_rekening']= $request['nomor_rekening'];
+        $update['bank']= $request['bank'];
+        $update['nama_rekening']= $request['nama_rekening'];
+        $update['saldo']= $request['saldo'];
+        $update['created_at']= date('Y-m-d H:i:s');
+        try {
+            Rekening::where('id', $rekening->id)->update($update);
+            return redirect('/rekening')->with('status', 'Berhasil mwngubah data');
+        } catch (\Throwable $th) {
+            return redirect('/rekening/'.$rekening->id.'/edit')->with('status', 'Gagal mengubah data');
+        }
     }
 
     /**

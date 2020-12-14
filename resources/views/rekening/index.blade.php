@@ -6,11 +6,11 @@
             <div class="page-inner py-5">
                 <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
                     <div>
-                        <h2 class="text-white pb-2 fw-bold">Mata Pelajaran</h2>
-                        <h5 class="text-white op-7 mb-2">Admin Dashboard</h5>
+                        <h2 class="text-white pb-2 fw-bold">Data Rekening</h2>
+                        <h5 class="text-white op-7 mb-2">List data rekening</h5>
                     </div>
                     <div class="ml-md-auto py-2 py-md-0">
-                        <a href="{{ url('/mapel/create') }}" class="btn btn-secondary btn-round">Tambah Data</a>
+                        <a href="{{ url('/rekening/create') }}" class="btn btn-secondary btn-round">Tambah Data</a>
                     </div>
                 </div>
             </div>
@@ -33,29 +33,29 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Data Mapel</h4>
+                            <h4 class="card-title">Data Rekening</h4>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table id="basic-datatables" class="display table table-striped table-hover">
                                     <thead>
                                         <tr>
-                                            <th>Mapel</th>
-                                            <th>Jenjang</th>
-                                            <th>Kelas</th>
-                                            <th>Status</th>
+                                            <th>Nomor Rekening</th>
+                                            <th>Bank</th>
+                                            <th>Nama Rekening</th>
+                                            <th>Saldo</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($data as $item)
                                             <tr>
-                                                <td>{{ $item->mapel }}</td>
-                                                <td>{{ $item->jenjang}}</td>
-                                                <td>{{ $item->kelas}}</td>
-                                                <td>{{ $item->status }}</td>
+                                                <td>{{ $item->nomor_rekening }}</td>
+                                                <td>{{ $item->bank}}</td>
+                                                <td>{{ $item->nama_rekening}}</td>
+                                                <td>Rp. {{ Helper::uang($item->saldo) }}</td>
                                                 <td >
-                                                    <a href="{{ url('/mapel/'.$item->id.'/edit')}}" class="btn btn-xs btn-primary"><i class="fas fa-edit"></i></a>
+                                                    <a href="{{ url('/rekening/'.$item->id.'/edit')}}" class="btn btn-xs btn-primary"><i class="fas fa-edit"></i></a>
 
                                                 </td>
                                             </tr>

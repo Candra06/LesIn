@@ -18,12 +18,13 @@
                 </div>
             </div>
             <ul class="nav nav-primary">
-                <li class="nav-item active">
-                    <a data-toggle="collapse" href="{{ url('/dashboard')}}" class="collapsed" aria-expanded="false">
+
+                <li class="nav-item {{ Request::segment(1) == 'dashboard' ? 'active' : '' }}">
+                    <a href="{{ url('/dashboard')}}" class="collapsed">
                         <i class="fas fa-home"></i>
                         <p>Dashboard</p>
-                        {{-- <span class="caret"></span> --}}
                     </a>
+
                 </li>
                 <li class="nav-section {{ Request::segment(1) == 'siswa' || Request::segment(1) == 'user' || Request::segment(1) == 'tentor' ? 'active' : '' }}">
                     <span class="sidebar-mini-icon">
@@ -54,6 +55,7 @@
                         </ul>
                     </div>
                 </li>
+
                 <li class="nav-item {{ Request::segment(1) == 'mapel' ? 'active' : '' }} submenu">
                     <a data-toggle="collapse" href="#sidebarLayouts">
                         <i class="fas fa-book-open"></i>
@@ -75,6 +77,13 @@
                         </ul>
                     </div>
                 </li>
+                <li class="nav-item {{ Request::segment(1) == 'rekening' ? 'active' : '' }}">
+                    <a href="{{ url('/rekening') }}" class="collapsed">
+                        <i class="fas fa-dollar-sign"></i>
+                        <p>Data Rekening</p>
+                    </a>
+
+                </li>
                 <li class="nav-section {{ Request::segment(1) == 'siswa' || Request::segment(1) == 'user' || Request::segment(1) == 'tentor' ? 'active' : '' }}">
                     <span class="sidebar-mini-icon">
                         <i class="fa fa-ellipsis-h"></i>
@@ -88,13 +97,13 @@
                     </a>
 
                 </li>
-                <li class="nav-item {{ Request::segment(1) == 'absensi' ? 'active' : '' }}">
+                {{-- <li class="nav-item {{ Request::segment(1) == 'absensi' ? 'active' : '' }}">
                     <a href="{{ url('/absensi') }}" class="collapsed">
                         <i class="fas fa-book"></i>
                         <p>Absensi</p>
                     </a>
 
-                </li>
+                </li> --}}
 
                 <li class="nav-section {{ Request::segment(1) == 'siswa' || Request::segment(1) == 'user' || Request::segment(1) == 'tentor' ? 'active' : '' }}">
                     <span class="sidebar-mini-icon">
@@ -109,8 +118,8 @@
                     </a>
 
                 </li>
-                <li class="nav-item {{ Request::segment(1) == 'absensi' ? 'active' : '' }}">
-                    <a href="{{ url('/absensi') }}" class="collapsed">
+                <li class="nav-item {{ Request::segment(1) == 'gajiTentor' ? 'active' : '' }}">
+                    <a href="{{ url('/gajiTentor') }}" class="collapsed">
                         <i class="fas fa-dollar-sign"></i>
                         <p>Gaji Tentor</p>
                     </a>

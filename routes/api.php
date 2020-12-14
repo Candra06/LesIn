@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('login', 'API\UsersController@login');
 Route::post('register', 'API\UsersController@register');
+Route::post('requestPassword', 'API\UsersController@requestPassword');
+Route::post('resetPassword', 'API\UsersController@resetPassword');
 
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('details', 'API\UsersController@profil');
@@ -51,5 +53,9 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('absensi/{kelas}', 'API\AbsensiController@index');
     Route::get('modul/{kelas}', 'API\ModulController@index');
     Route::post('modul', 'API\ModulController@store');
+    Route::post('deletePendidikan/{id}', 'API\RiwayatPendidikanController@delete');
+    Route::post('deletePrestasi/{id}', 'API\PrestasiController@delete');
     Route::get('saldo', 'API\TentorController@getSaldo');
+    Route::get('rekening', 'API\RekeningController@index');
+    Route::post('feedback', 'API\FeedbackController@simpan');
 });

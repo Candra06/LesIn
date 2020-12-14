@@ -74,7 +74,7 @@
                                             <p><button
                                                     class="btn btn-sm btn-warning">{{ $data->status_pembayaran }}</button>
                                             </p>
-                                        @elseif($data->status_pembayaran == 'Diterima')
+                                        @elseif($data->status_pembayaran == 'Confirmed')
                                             <p><button
                                                     class="btn btn-sm btn-success">{{ $data->status_pembayaran }}</button>
                                             </p>
@@ -95,7 +95,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="password">Jumlah Pembayaran</label>
-                                        <p>{{ $data->jumlah_bayar }}</p>
+                                        <p>Rp. {{ Helper::uang($data->jumlah_bayar) }}</p>
                                     </div>
                                 </div>
                                 <div class="col-md-12">

@@ -22,7 +22,7 @@ class Helper
     public static function waktu($tgl)
     {
         $qq = '';
-        
+
         $k = explode(" ", $tgl);
         $kk = explode("-", $k[0]);
         $bln = array('', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember');
@@ -53,5 +53,10 @@ class Helper
         $dat[1] = "";
         $dat[2] = "";
         return str_replace($re, $dat, $kalimat);
+    }
+
+    public static function uang($price)
+    {
+        return number_format($price, 0, ',', '.');
     }
 }

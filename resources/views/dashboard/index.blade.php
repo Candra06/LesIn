@@ -15,7 +15,7 @@
     </div>
     <div class="page-inner mt--5">
         <div class="row mt--2">
-            <div class="col-sm-6 col-md-4       ">
+            <div class="col-sm-6 col-md-3">
                 <div class="card card-stats card-warning card-round">
                     <div class="card-body">
                         <div class="row">
@@ -34,7 +34,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6 col-md-4">
+            <div class="col-sm-6 col-md-3">
                 <div class="card card-stats card-info card-round">
                     <div class="card-body">
                         <div class="row">
@@ -53,7 +53,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6 col-md-4">
+            <div class="col-sm-6 col-md-3">
                 <div class="card card-stats card-success card-round">
                     <div class="card-body ">
                         <div class="row">
@@ -66,6 +66,25 @@
                                 <div class="numbers">
                                     <p class="card-category">Kelas</p>
                                     <h4 class="card-title">{{$kelas}}</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+                <div class="card card-stats card-danger card-round">
+                    <div class="card-body ">
+                        <div class="row">
+                            <div class="col-5">
+                                <div class="icon-big text-center">
+                                    <i class="flaticon-coins"></i>
+                                </div>
+                            </div>
+                            <div class="col-7 col-stats">
+                                <div class="numbers">
+                                    <p class="card-category">Saldo (Rp.)</p>
+                                    <h6 class="card-title">{{Helper::uang($saldo)}}</h6>
                                 </div>
                             </div>
                         </div>

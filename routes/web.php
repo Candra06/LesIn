@@ -23,7 +23,11 @@ Route::group(['middleware' => 'Admin'], function () {
     Route::resource('/tentor', 'TentorController');
     Route::resource('/user', 'UsersController');
     Route::resource('/mapel', 'MapelController');
+    Route::resource('/rekening', 'RekeningController');
     Route::resource('/dataMengajar', 'DataMengajarController');
     Route::get('/jadwal', 'JadwalController@index');
+    Route::get('/gajiTentor', 'TentorController@listTentor');
+    Route::get('/pencairan/{tentor}/', 'TentorController@pencairan');
+    Route::post('/pencairan/{tentor}', 'TentorController@pencairanSaldo');
     Route::resource('/pembayaran', 'PembayaranController');
 });

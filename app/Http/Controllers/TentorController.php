@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\LogSaldo;
 use App\Tentor;
 use App\User;
 use Illuminate\Http\Request;
@@ -137,10 +138,57 @@ class TentorController extends Controller
         $updt['saldo_dompet'] = 0;
 
         try {
-            Tentor::where('id',$tentor->id)->update($updt);
+            Tentor::where('id', $tentor->id)->update($updt);
             return redirect('/tentor')->with('status', 'Berhasil mengubah data');
         } catch (\Throwable $th) {
-            return redirect('/tentor/'.$tentor->id.'/edit')->with('status', $th);
+            return redirect('/tentor/' . $tentor->id . '/edit')->with('status', $th);
+        }
+    }
+
+    public function listTentor()
+    {
+        $data = Tentor::all();
+        return view('tentor.listTentor', compact('data'));
+    }
+
+    public function pencairan($tentor)
+    {
+        $data = Tentor::where('id', $tentor)->first();
+        return view('tentor.pencairan', compact('data'));
+    }
+
+    public function pencairanSaldo(Request $request, $tentor)
+    {
+
+        $request->validate([
+            'nominal' => 'required|numeric',
+            'keterangan' => 'required|max:60',
+        ]);
+        if (intval($request['saldo']) < intval($request['nominal'])) {
+            return redirect('/pencairan/' . $tentor .'/')->with('status', 'Saldo tidak mencukupi');
+        }
+
+        $new = intval($request['saldo']) - intval($request['nominal']);
+        // return $new;
+        $update = [
+            'saldo_dompet' => $new,
+            'updated_at' => date(''),
+        ];
+
+        $log = [
+            'id_tentor' => $tentor,
+            'jumlah_saldo' => intval($request['nominal']),
+            'jenis' => 'Kredit',
+            'keterangan' => 'Penarikan ' . $request['keterangan'],
+            'created_at' => date('Y-m-d H:i:s')
+        ];
+        try {
+            Tentor::where('id', $tentor)->update($update);
+            LogSaldo::create($log);
+            return redirect('/gajiTentor')->with('status', 'Berhasil melakukan penarikan dana');
+        } catch (\Throwable $th) {
+            //throw $th;
+            return redirect('/pencairan/' . $tentor .'/')->with('status', $th);
         }
     }
 

@@ -19,30 +19,34 @@ class PembayaranController extends Controller
     {
         $request->validate([
             'id_kelas' => 'required',
-            'harga_deal' => 'required',
             'keterangan' => 'required',
             'bukti_tf' => 'file|between:0,2048|mimes:png,jpg,jpeg',
             'tanggal_bayar' => 'required',
             'jumlah_bayar' => 'required',
+            'id_rekening' => 'required',
         ]);
         $user = Auth::user()->id;
         $idSiswa = Siswa::where('id_akun', $user)->select('id')->first();
         $fileType = $request->file('bukti_tf')->extension();
         $name = Str::random(8) . '.' . $fileType;
-        
-        $cek = Pembayaran::where('id_kelas', $request['id_kelas'])->first();
+
+        $cek = LogPembayaran::where('id_kelas', $request['id_kelas'])->first();
+        // return $cek;
         if ($cek) {
-            $log['id_pembayaran'] = $cek->id;
+
+            $log['id_kelas'] =$request['id_kelas'];
             $log['bukti_tf'] = Storage::putFileAs('bukti', $request->file('bukti_tf'), $name);
             $log['tanggal_bayar'] = $request['tanggal_bayar'];
             $log['jumlah_bayar'] = $request['jumlah_bayar'];
             $log['created_by'] = $idSiswa->id;
             $log['keterangan'] = $request['keterangan'];
+            $log['id_rekening'] = $request['id_rekening'];
             $log['confirmed_by'] = 0;
             $log['status'] = 'Pending';
+            $log['created_at'] = date('Y-m-d H:i:s');
             try {
                 LogPembayaran::create($log);
-                $pembayaran = LogPembayaran::where('id_pembayaran', $cek->id)->where('status', 'Confirmed')->sum('jumlah_bayar');
+                $pembayaran = LogPembayaran::where('id_kelas', $cek->id)->where('status', 'Confirmed')->sum('jumlah_bayar');
                 if ($cek->harga_deal == $pembayaran) {
                     Pembayaran::where('id', $cek->id)->update(['status_pembayaran' => 'Lunas']);
                 }
@@ -51,18 +55,16 @@ class PembayaranController extends Controller
                 return response()->json(['error' => $th], 401);
             }
         } else {
-            $pembayaran['id_kelas'] = $request['id_kelas'];
-            $pembayaran['harga_deal'] = $request['harga_deal'];
-            $pembayaran['status_pembayaran'] = 'Belum Lunas';
-            $pembayaran = Pembayaran::create($pembayaran);
-            $idPembayaran = $pembayaran->id;
-            $log['id_pembayaran'] = $idPembayaran;
+            // return 'gak dapat';
+
+            $log['id_kelas'] = $request['id_kelas'];
             $log['bukti_tf'] = Storage::putFileAs('bukti', $request->file('bukti_tf'), $name);
             $log['tanggal_bayar'] = $request['tanggal_bayar'];
             $log['jumlah_bayar'] = $request['jumlah_bayar'];
             $log['created_by'] = $idSiswa->id;
             $log['confirmed_by'] = 0;
             $log['keterangan'] = $request['keterangan'];
+            $log['id_rekening'] = $request['id_rekening'];
             $log['status'] = 'Pending';
             try {
                 LogPembayaran::create($log);
