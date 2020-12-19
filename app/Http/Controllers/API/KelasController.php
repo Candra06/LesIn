@@ -30,6 +30,7 @@ class KelasController extends Controller
             $kelas['id_tentor'] = $request['tentor'];
             $kelas['id_mapel'] = $request['mapel'];
             $kelas['tarif'] = $request['tarif'];
+            $kelas['harga_deal'] = $request['harga_deal'];
             $kelas['jumlah_pertemuan'] = $request['jumlah_pertemuan'];
             $kelas['pertemuan'] = 0;
             $kelas['status'] = 'Pending';

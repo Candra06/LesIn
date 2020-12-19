@@ -133,8 +133,8 @@ class TentorController extends Controller
         $updt['alamat'] = $request['alamat'];
         $updt['motto'] = '-';
         $updt['hobi'] = '-';
-        $updt['lattitude'] = '-';
-        $updt['longitude'] = '-';
+        $updt['lattitude'] = 0;
+        $updt['longitude'] = 0;
         $updt['saldo_dompet'] = 0;
 
         try {
@@ -160,6 +160,7 @@ class TentorController extends Controller
     public function pencairanSaldo(Request $request, $tentor)
     {
 
+
         $request->validate([
             'nominal' => 'required|numeric',
             'keterangan' => 'required|max:60',
@@ -167,12 +168,12 @@ class TentorController extends Controller
         if (intval($request['saldo']) < intval($request['nominal'])) {
             return redirect('/pencairan/' . $tentor .'/')->with('status', 'Saldo tidak mencukupi');
         }
-
+        // return $request;
         $new = intval($request['saldo']) - intval($request['nominal']);
         // return $new;
         $update = [
             'saldo_dompet' => $new,
-            'updated_at' => date(''),
+            'updated_at' => date('Y-m-d H:i:s'),
         ];
 
         $log = [
@@ -182,12 +183,14 @@ class TentorController extends Controller
             'keterangan' => 'Penarikan ' . $request['keterangan'],
             'created_at' => date('Y-m-d H:i:s')
         ];
+        // return $log;
         try {
-            Tentor::where('id', $tentor)->update($update);
             LogSaldo::create($log);
+            Tentor::where('id', $tentor)->update($update);
             return redirect('/gajiTentor')->with('status', 'Berhasil melakukan penarikan dana');
         } catch (\Throwable $th) {
             //throw $th;
+
             return redirect('/pencairan/' . $tentor .'/')->with('status', $th);
         }
     }
