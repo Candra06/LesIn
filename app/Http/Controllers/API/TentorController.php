@@ -4,10 +4,14 @@ namespace App\Http\Controllers\API;
 
 use App\DataMengajar;
 use App\Http\Controllers\Controller;
+use App\Jadwal;
 use App\LogSaldo;
 use Illuminate\Http\Request;
 use App\Tentor;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\NotifBooking;
+
 
 class TentorController extends Controller
 {
@@ -28,8 +32,31 @@ class TentorController extends Controller
     public function getInfoTentor($tentor)
     {
         try {
-            $data = Tentor::join('users', 'users.id', 'data_tentor.id_akun')->where('data_tentor.id', $tentor)->select('users.email', 'users.username', 'data_tentor.*')->first();
+            $data = Tentor::join('users', 'users.id', 'data_tentor.id_akun')->where('data_tentor.id', $tentor)
+                ->select('users.email', 'users.username', 'data_tentor.*')->first();
             return response()->json(['data' => $data], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+    }
+
+    public function jadwalReady($tentor)
+    {
+        $hari = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jum`at', 'Sabtu', 'Minggu'];
+        try {
+            $data = Jadwal::leftjoin('kelas', 'kelas.id', 'jadwal.id_kelas')
+                ->where('id_tentor', $tentor)
+                ->select('hari')
+                ->groupBy('hari')
+                ->get();
+            for ($i = 0; $i < count($data); $i++) {
+                if (in_array($data[$i]['hari'], $hari)) {
+                    $day = array_search($data[$i]['hari'], $hari);
+                    unset($hari[$day]);
+                    $hari = array_values($hari);
+                }
+            }
+            return response()->json(['data' => $hari], 200);
         } catch (\Throwable $th) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
@@ -37,17 +64,16 @@ class TentorController extends Controller
 
     public function getSaldo()
     {
-
         try {
             $as = Auth::user()->id;
             $tmp = Tentor::where('id_akun', $as)->select('id', 'saldo_dompet')->first();
             $log = LogSaldo::leftjoin('data_tentor as dt', 'dt.id', 'log_saldo.id_tentor')
-            ->where('log_saldo.id_tentor', $tmp->id)
-            ->select('dt.nama as tentor', 'log_saldo.*')
-            ->get();
+                ->where('log_saldo.id_tentor', $tmp->id)
+                ->select('dt.nama as tentor', 'log_saldo.*')
+                ->get();
             $lg = array();
             $logP = [];
-            foreach ($log as $key ) {
+            foreach ($log as $key) {
                 $lg['jumlah_saldo'] = $key->jumlah_saldo;
                 $lg['keterangan'] = $key->keterangan;
                 $lg['jenis'] = $key->jenis;
@@ -102,5 +128,5 @@ class TentorController extends Controller
         }
     }
 
-   
+    
 }

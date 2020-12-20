@@ -21,7 +21,7 @@ class FeedbackController extends Controller
         ];
         $rate = Feedback::where('id_tentor', $request['id_tentor'])->avg('rating');
         if ($rate) {
-            Tentor::where('id', $request['id_tentor'])->update(['rating' => $rate]);
+            Tentor::where('id', $request['id_tentor'])->update(['rating' => number_format((double)$rate, 1, '.', '')]);
             # code...
         } else {
             Tentor::where('id', $request['id_tentor'])->update(['rating' => $request['rating']]);

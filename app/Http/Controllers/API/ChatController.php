@@ -4,11 +4,13 @@ namespace App\Http\Controllers\API;
 
 use App\Chat;
 use App\Http\Controllers\Controller;
+use App\Mail\NotifBooking;
 use App\RoomChat;
 use App\Siswa;
 use App\Tentor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class ChatController extends Controller
 {
@@ -23,7 +25,7 @@ class ChatController extends Controller
                 ->orWhere('receiver', $id->id)
                 ->select('id')
                 ->get();
-                // return $var;
+            // return $var;
             $data = array();
             foreach ($var as $v) {
                 $data[] = Chat::join('data_tentor as dt', 'dt.id', 'detail_chat.id_tentor')
@@ -39,8 +41,9 @@ class ChatController extends Controller
                 $tmp['nama'] = $key->nama;
                 $tmp['id_room'] = $key->id_room;
                 $tmp['status'] = $key->status;
+                $pesan[] = $tmp;
             }
-            $pesan[] = $tmp;
+
         } else {
             $id = Tentor::where('id_akun', $as)->select('id')->first();
             $var = RoomChat::where('created_by', $id->id)
@@ -61,9 +64,8 @@ class ChatController extends Controller
                 $tmp['nama'] = $key->nama;
                 $tmp['id_room'] = $key->id_room;
                 $tmp['status'] = $key->status;
+                $pesan[] = $tmp;
             }
-            $pesan[] = $tmp;
-
         }
 
         try {
@@ -108,6 +110,9 @@ class ChatController extends Controller
                 $detail['created_at'] = date('Y-m-d H:i:s');
                 Chat::create($detail);
             }
+            $name = Siswa::where('id',  $request['id_siswa'])->select('nama')->first();
+            $tentor = Tentor::leftJoin('users', 'users.id', 'data_tentor.id_akun')->where('data_tentor.id',  $request['id_tentor'])->select('email')->first();
+            Mail::to([$tentor->email])->send(new NotifBooking($name->nama));
             return response()->json(['data' => 'Sukses', 'room' => $idRoom], 200);
         } catch (\Throwable $th) {
             return $th;

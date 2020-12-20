@@ -106,6 +106,18 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
+                                            <label for="email2">Tarif</label>
+                                            <input type="number" value="{{ old('tarif') }}" placeholder="Tarif Tentor"
+                                                class="form-control  @error('tarif') is-invalid @enderror"
+                                                name="tarif">
+                                            @error('tarif')
+                                                <label class="mt-1" style="color: red">{{ $message }}</label>
+                                            @enderror
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
                                             <label for="password">Alamat</label>
                                             <textarea name="alamat" id="" cols="3"
                                                 class="form-control  @error('alamat') is-invalid @enderror"

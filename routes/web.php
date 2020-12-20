@@ -26,7 +26,12 @@ Route::group(['middleware' => 'Admin'], function () {
     Route::resource('/rekening', 'RekeningController');
     Route::resource('/dataMengajar', 'DataMengajarController');
     Route::get('/jadwal', 'JadwalController@index');
+    Route::get('/kelas', 'KelasController@listKelas');
+    Route::get('/kelas/{id}', 'KelasController@show');
     Route::get('/gajiTentor', 'TentorController@listTentor');
+    Route::get('/profile/{id}', 'UsersController@show');
+    Route::put('/profile/{id}', 'UsersController@update');
+
     Route::get('/pencairan/{tentor}/', 'TentorController@pencairan');
     Route::post('/pencairan/{tentor}', 'TentorController@pencairanSaldo');
     Route::resource('/pembayaran', 'PembayaranController');

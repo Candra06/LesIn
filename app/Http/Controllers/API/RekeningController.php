@@ -9,7 +9,7 @@ class RekeningController extends Controller
 {
     public function index()
     {
-        $data = Rekening::all();
+        $data = Rekening::where('status', 'Aktif')->get();
         if ($data) {
             return response()->json(['data' => $data], 200);
         } else {

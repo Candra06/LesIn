@@ -41,12 +41,14 @@ class RekeningController extends Controller
             'bank' => 'required',
             'nama_rekening' => 'required',
             'saldo' => 'required|numeric',
+            'status' => 'required',
         ]);
 
         $input['nomor_rekening']= $request['nomor_rekening'];
         $input['bank']= $request['bank'];
         $input['nama_rekening']= $request['nama_rekening'];
         $input['saldo']= $request['saldo'];
+        $input['status']= $request['status'];
         $input['created_at']= date('Y-m-d H:i:s');
         try {
             Rekening::create($input);
@@ -99,6 +101,7 @@ class RekeningController extends Controller
         $update['bank']= $request['bank'];
         $update['nama_rekening']= $request['nama_rekening'];
         $update['saldo']= $request['saldo'];
+        $update['status']= $request['status'];
         $update['created_at']= date('Y-m-d H:i:s');
         try {
             Rekening::where('id', $rekening->id)->update($update);

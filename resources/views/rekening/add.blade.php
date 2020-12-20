@@ -93,9 +93,22 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="password">Saldo</label>
-                                            <input type="text" value="{{ old('saldo') }}"
+                                            <input type="number" value="{{ old('saldo') }}"
                                                 class="form-control  @error('saldo') is-invalid @enderror" name="saldo"
                                                 placeholder="Saldo Rekening">
+                                            @error('saldo')
+                                                <label class="mt-1" style="color: red">{{ $message }}</label>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="status">Status</label>
+                                           <select name="status" class="form-control @error('status') is-invalid @enderror"  id="">
+                                               <option value="">Pilih Status</option>
+                                               <option value="Aktif" {{old('status') == 'Aktif' ? 'selected' : ''}}>Aktif</option>
+                                               <option value="NonAktif" {{old('status') == 'NonAktif' ? 'selected' : ''}}>NonAktif</option>
+                                           </select>
                                             @error('saldo')
                                                 <label class="mt-1" style="color: red">{{ $message }}</label>
                                             @enderror

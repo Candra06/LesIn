@@ -84,26 +84,19 @@
                     </a>
 
                 </li>
-                <li class="nav-section {{ Request::segment(1) == 'siswa' || Request::segment(1) == 'user' || Request::segment(1) == 'tentor' ? 'active' : '' }}">
+                <li class="nav-section {{ Request::segment(1) == 'jadwal' || Request::segment(1) == 'kelas' || Request::segment(1) == 'tentor' ? 'active' : '' }}">
                     <span class="sidebar-mini-icon">
                         <i class="fa fa-ellipsis-h"></i>
                     </span>
                     <h4 class="text-section">Kelas</h4>
                 </li>
-                <li class="nav-item {{ Request::segment(1) == 'jadwal' ? 'active' : '' }}">
-                    <a href="{{ url('/jadwal') }}" class="collapsed">
+                <li class="nav-item {{ Request::segment(1) == 'kelas' ? 'active' : '' }}">
+                    <a href="{{ url('/kelas') }}" class="collapsed">
                         <i class="fas fa-calendar-alt"></i>
-                        <p>Jadwal</p>
+                        <p>Kelas</p>
                     </a>
 
                 </li>
-                {{-- <li class="nav-item {{ Request::segment(1) == 'absensi' ? 'active' : '' }}">
-                    <a href="{{ url('/absensi') }}" class="collapsed">
-                        <i class="fas fa-book"></i>
-                        <p>Absensi</p>
-                    </a>
-
-                </li> --}}
 
                 <li class="nav-section {{ Request::segment(1) == 'siswa' || Request::segment(1) == 'user' || Request::segment(1) == 'tentor' ? 'active' : '' }}">
                     <span class="sidebar-mini-icon">

@@ -51,11 +51,9 @@ class UsersController extends Controller
                     return redirect('/')->with('message', 'Password salah!');
                 }
             }
-
         } else {
             return redirect('/')->with('message', 'Email tidak teredaftar!');
         }
-
     }
 
     public function logout(Request $request)
@@ -98,7 +96,9 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = User::where('id', session('id'))->first();
+        // return $data;
+        return view('dashboard.profile', compact('data'));
     }
 
     /**
@@ -121,7 +121,25 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate(
+            [
+                'username' => 'required',
+                'password' => 'required'
+            ]
+        );
+
+        $up = [
+            'username' => $request['username'],
+            'password' => bcrypt($request['password'])
+        ];
+
+        try {
+            User::where('id', $id)->update($up);
+            session()->put('username', $request['username']);
+            return redirect('dashboard');
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     /**
@@ -134,6 +152,4 @@ class UsersController extends Controller
     {
         //
     }
-
-
 }

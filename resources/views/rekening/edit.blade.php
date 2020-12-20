@@ -102,6 +102,19 @@
                                             @enderror
                                         </div>
                                     </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="status">Status</label>
+                                           <select name="status" class="form-control @error('status') is-invalid @enderror"  id="">
+                                               <option value="">Pilih Status</option>
+                                               <option value="Aktif" {{ $rekening->status == 'Aktif' ? 'selected' : ''}}>Aktif</option>
+                                               <option value="NonAktif" {{ $rekening->status == 'NonAktif' ? 'selected' : ''}}>NonAktif</option>
+                                           </select>
+                                            @error('saldo')
+                                                <label class="mt-1" style="color: red">{{ $message }}</label>
+                                            @enderror
+                                        </div>
+                                    </div>
 
                                 </div>
 

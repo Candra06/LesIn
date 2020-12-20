@@ -57,5 +57,6 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('deletePrestasi/{id}', 'API\PrestasiController@delete');
     Route::get('saldo', 'API\TentorController@getSaldo');
     Route::get('rekening', 'API\RekeningController@index');
+    Route::get('jadwal/{tentor}', 'API\TentorController@jadwalReady');
     Route::post('feedback', 'API\FeedbackController@simpan');
 });

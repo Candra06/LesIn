@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\LogSaldo;
+use App\Mail\NotifBooking;
 use App\Tentor;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class TentorController extends Controller
 {
@@ -47,6 +49,7 @@ class TentorController extends Controller
             'tgl_lahir' => 'required',
             'alamat' => 'required',
             'username' => 'required',
+            'tarif' => 'required|numeric',
         ]);
 
         $akun['email'] = $request['email'];
@@ -61,6 +64,7 @@ class TentorController extends Controller
         $tentor['gender'] = $request['gender'];
         $tentor['tgl_lahir'] = $request['tgl_lahir'];
         $tentor['alamat'] = $request['alamat'];
+        $tentor['tarif'] = $request['tarif'];
         $tentor['motto'] = '-';
         $tentor['hobi'] = '-';
         $tentor['lattitude'] = '-';
@@ -73,6 +77,11 @@ class TentorController extends Controller
         } catch (\Throwable $th) {
             return redirect('/tentor/create')->with('status', $th);
         }
+    }
+    public function sendEmail()
+    {
+        $name = 'Admin Les.in';
+        Mail::to(['dewi.chantikamaya06@gmail.com'])->send(new NotifBooking($name));
     }
 
     /**
@@ -117,15 +126,15 @@ class TentorController extends Controller
             'tgl_lahir' => 'required',
             'alamat' => 'required',
             'username' => 'required',
+            'tarif' => 'required|numeric',
         ]);
 
         $akun['email'] = $request['email'];
         $akun['username'] = $request['username'];
         $akun['password'] = bcrypt($request['password']);
-        $akun['role'] = 'tentor';
-        $addAkun = User::create($akun);
+        $addAkun = User::where('id', $tentor->id_akun)->update($akun);
 
-        $updt['id_akun'] = $addAkun->id;
+
         $updt['nama'] = $request['nama'];
         $updt['telepon'] = $request['telepon'];
         $updt['gender'] = $request['gender'];
@@ -136,6 +145,7 @@ class TentorController extends Controller
         $updt['lattitude'] = 0;
         $updt['longitude'] = 0;
         $updt['saldo_dompet'] = 0;
+        $updt['tarif'] = $request['tarif'];
 
         try {
             Tentor::where('id', $tentor->id)->update($updt);

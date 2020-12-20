@@ -34,7 +34,7 @@ class PembayaranController extends Controller
         // return $cek;
         if ($cek) {
 
-            $log['id_kelas'] =$request['id_kelas'];
+            $log['id_kelas'] = $request['id_kelas'];
             $log['bukti_tf'] = Storage::putFileAs('bukti', $request->file('bukti_tf'), $name);
             $log['tanggal_bayar'] = $request['tanggal_bayar'];
             $log['jumlah_bayar'] = $request['jumlah_bayar'];
@@ -77,14 +77,16 @@ class PembayaranController extends Controller
 
     public function logPembayaran($kelas)
     {
-        $data = LogPembayaran::leftJoin('data_pembayaran', 'data_pembayaran.id', 'log_pembayaran.id_pembayaran')->where('data_pembayaran.id_kelas', $kelas)
-        ->select('log_pembayaran.id_pembayaran', 'log_pembayaran.id as id', 'log_pembayaran.bukti_tf', 'log_pembayaran.tanggal_bayar', 'log_pembayaran.jumlah_bayar', 'log_pembayaran.created_by', 'log_pembayaran.keterangan', 'log_pembayaran.status')->get();
+        $total = LogPembayaran::where('id_kelas', $kelas)->sum('jumlah_bayar');
+        $data = LogPembayaran::leftJoin('kelas', 'kelas.id', 'log_pembayaran.id_kelas')->where('kelas.id', $kelas)
+            ->select('log_pembayaran.id_kelas', 'log_pembayaran.id as id', 'log_pembayaran.bukti_tf', 'log_pembayaran.tanggal_bayar', 'log_pembayaran.jumlah_bayar', 'log_pembayaran.created_by', 'log_pembayaran.keterangan', 'log_pembayaran.status')->get();
+        $deal = Kelas::where('id', $kelas)->select('harga_deal')->first();
+        $sisa = intval($deal->harga_deal) - intval($total);
         if ($data) {
-            return response()->json(['data' => $data], 200);
+            return response()->json(['terbayar' => $total, 'deal' => $deal->harga_deal, 'sisa' => $sisa, 'data' => $data,], 200);
         } else {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-
     }
 
     public function listPembayaran()
@@ -92,12 +94,11 @@ class PembayaranController extends Controller
         $auth = Auth::user()->id;
         $id = Siswa::where('id_akun', $auth)->select('id')->first();
 
-        $data = LogPembayaran::leftJoin('data_pembayaran', 'data_pembayaran.id', 'log_pembayaran.id_pembayaran')
-        ->leftJoin('kelas', 'kelas.id', 'data_pembayaran.id_kelas')
-        ->leftJoin('data_siswa', 'data_siswa.id', 'kelas.id_siswa')
-        ->where('data_siswa.id', $id->id)
-        ->select('log_pembayaran.keterangan', 'log_pembayaran.tanggal_bayar', 'log_pembayaran.jumlah_bayar', 'log_pembayaran.status', 'data_siswa.id')
-        ->get();
+        $data = LogPembayaran::leftJoin('kelas', 'kelas.id', 'log_pembayaran.id_kelas')
+            ->leftJoin('data_siswa', 'data_siswa.id', 'kelas.id_siswa')
+            ->where('data_siswa.id', $id->id)
+            ->select('log_pembayaran.keterangan', 'log_pembayaran.tanggal_bayar', 'log_pembayaran.jumlah_bayar', 'log_pembayaran.status', 'data_siswa.id')
+            ->get();
         if ($data) {
             return response()->json(['data' => $data], 200);
         } else {
@@ -114,7 +115,7 @@ class PembayaranController extends Controller
         $id = Tentor::where('id_akun', $auth)->select('id')->first();
         $cek = LogPembayaran::leftjoin('data_pembayaran', 'data_pembayaran.id', 'log_pembayaran.id_pembayaran')
             ->leftjoin('kelas', 'kelas.id', 'data_pembayaran.id_kelas')
-        ->where('log_pembayaran.id', $log)->select('kelas.status', 'kelas.id')->first();
+            ->where('log_pembayaran.id', $log)->select('kelas.status', 'kelas.id')->first();
         // return $id->id;
         $up['status'] = $request['status'];
         $up['confirmed_by'] = $id->id;
