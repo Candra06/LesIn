@@ -58,6 +58,7 @@ return array(
     'App\\Kelas' => $baseDir . '/app/Kelas.php',
     'App\\LogPembayaran' => $baseDir . '/app/LogPembayaran.php',
     'App\\LogSaldo' => $baseDir . '/app/LogSaldo.php',
+    'App\\Mail\\NotifBooking' => $baseDir . '/app/Mail/NotifBooking.php',
     'App\\Mapel' => $baseDir . '/app/Mapel.php',
     'App\\Modul' => $baseDir . '/app/Modul.php',
     'App\\Pembayaran' => $baseDir . '/app/Pembayaran.php',

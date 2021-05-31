@@ -8,6 +8,8 @@ use App\Tentor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\User;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class UsersController extends Controller
 {
@@ -167,6 +169,7 @@ class UsersController extends Controller
             'password' => 'required',
             'telepon' => 'required',
             'gender' => 'required',
+            'gender' => 'required',
             'tgl_lahir' => 'required',
             'alamat' => 'required',
         ]);
@@ -191,6 +194,10 @@ class UsersController extends Controller
             $data['id_akun'] = $idAkun;
             Siswa::create($data);
         } else {
+            $fotoKTP = $request->file('foto_ktp')->extension();
+            $fotoDiri = $request->file('foto_diri')->extension();
+            $nameKtp = Str::random(8) . '.' . $fotoKTP;
+            $nameDiri= Str::random(8) . '.' . $fotoDiri;
             $data['nama'] = $request['nama'];
             $data['telepon'] = $request['telepon'];
             $data['gender'] = $request['gender'];
@@ -201,6 +208,8 @@ class UsersController extends Controller
             $data['saldo_dompet'] = 0;
             $data['lattitude'] = 0;
             $data['longitude'] = 0;
+            $data['foto_ktp'] = Storage::putFileAs('foto_ktp', $request->file('foto_ktp'), $nameKtp);
+            $data['foto_diri'] = Storage::putFileAs('foto_diri', $request->file('foto_diri'), $nameDiri);
             // return $data;
             Tentor::create($data);
         }

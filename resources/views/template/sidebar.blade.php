@@ -93,7 +93,7 @@
                 <li class="nav-item {{ Request::segment(1) == 'kelas' ? 'active' : '' }}">
                     <a href="{{ url('/kelas') }}" class="collapsed">
                         <i class="fas fa-calendar-alt"></i>
-                        <p>Kelas</p>
+                        <p>Rekap Kelas</p>
                     </a>
 
                 </li>

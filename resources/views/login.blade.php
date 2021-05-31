@@ -7,6 +7,7 @@
     <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
     <link rel="icon" href="{{ url('/') }}/assets/img/icon.ico" type="image/x-icon" />
 
+
     <!-- Fonts and icons -->
     <script src="{{ url('/') }}/assets/js/plugin/webfont/webfont.min.js"></script>
     <script>
@@ -131,6 +132,7 @@
     <script src="{{ url('/') }}/assets/js/core/popper.min.js"></script>
     <script src="{{ url('/') }}/assets/js/core/bootstrap.min.js"></script>
     <script src="{{ url('/') }}/assets/js/atlantis.min.js"></script>
+   
 </body>
 
 </html>

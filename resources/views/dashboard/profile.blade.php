@@ -96,7 +96,7 @@
                             </div>
                             <div class="card-action mt-3">
                                 <button type="submit" class="btn btn-success">Submit</button>
-                                <button type="reset" class="btn btn-danger">Cancel</button>
+                                <a href="{{url('/dashboard')}}"><button type="button" class="btn btn-danger">Batal</button> </a>
                             </div>
                         </div>
                     </form>

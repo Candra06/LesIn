@@ -104,7 +104,7 @@ class PembayaranController extends Controller
             $add_saldo = $rek->saldo + $log->jumlah_bayar;
             Rekening::where('id', $log->id_rekening)->update(['saldo'=>$add_saldo]);
             if ($total_cek <= $bg_tentor) {
-                return 'if';
+                
                 $saldo_tentor = $saldo->saldo_dompet + $log->jumlah_bayar;
                 $inlog = [
                     'id_tentor' => $saldo->id,

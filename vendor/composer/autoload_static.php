@@ -628,6 +628,7 @@ class ComposerStaticInit9149910f0c99a5c6c606dec18713f454
         'App\\Kelas' => __DIR__ . '/../..' . '/app/Kelas.php',
         'App\\LogPembayaran' => __DIR__ . '/../..' . '/app/LogPembayaran.php',
         'App\\LogSaldo' => __DIR__ . '/../..' . '/app/LogSaldo.php',
+        'App\\Mail\\NotifBooking' => __DIR__ . '/../..' . '/app/Mail/NotifBooking.php',
         'App\\Mapel' => __DIR__ . '/../..' . '/app/Mapel.php',
         'App\\Modul' => __DIR__ . '/../..' . '/app/Modul.php',
         'App\\Pembayaran' => __DIR__ . '/../..' . '/app/Pembayaran.php',

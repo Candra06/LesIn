@@ -81,6 +81,8 @@ return [
         public_path('storage') => storage_path('app/public'),
         public_path('bukti') => storage_path('app/bukti'),
         public_path('file_modul') => storage_path('app/file_modul'),
+        public_path('foto_ktp') => storage_path('app/foto_ktp'),
+        public_path('foto_diri') => storage_path('app/foto_diri'),
     ],
 
 ];
