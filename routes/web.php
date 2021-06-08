@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +16,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'UsersController@home');
 Route::post('/login', 'UsersController@login');
-
+Route::get('migrate', function () {
+    Artisan::call('migrate');
+});
+Route::get('/linkstorage', function () {
+    Artisan::call('storage:link');
+});
 Route::group(['middleware' => 'Admin'], function () {
     Route::get('/logout', 'UsersController@logout');
     Route::get('/dashboard', 'UsersController@dashboard');
