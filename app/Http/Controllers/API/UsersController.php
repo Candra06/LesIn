@@ -130,7 +130,7 @@ class UsersController extends Controller
         $username = $request->username;
         $password = $request->password;
         // dd($password);
-        // return $request;
+        // return bcrypt($password);
         $data = User::where('username',$username)->first();
         if($data){
             if(password_verify($password, $data->password)){

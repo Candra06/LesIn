@@ -34,10 +34,10 @@ class UsersController extends Controller
 
     public function login(Request $request)
     {
-
+        // return date('Y-m-d');
         $data = User::where('email', $request->username)->first();
         $pass = ['request' => strlen(password_hash($request->password, PASSWORD_DEFAULT)), 'data' => $data->password];
-        return $pass;
+        // return $pass;
         if ($data) {
             if ($data->role != 'admin') {
                 return redirect('/')->with('message', 'Anda bukan admin!');
