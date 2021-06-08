@@ -36,13 +36,13 @@ class UsersController extends Controller
     {
         // return date('Y-m-d');
         $data = User::where('email', $request->username)->first();
-        $pass = ['request' => strlen(password_hash($request->password, PASSWORD_DEFAULT)), 'data' => $data->password];
-        // return $pass;
+        // $pass = ['request' => strlen(password_hash($request->password, PASSWORD_DEFAULT)), 'data' => $data->password];
+        // return bcrypt($request->password);
         if ($data) {
             if ($data->role != 'admin') {
                 return redirect('/')->with('message', 'Anda bukan admin!');
             } else {
-                if (password_verify($request->password, $data->password)) {
+                if(password_verify($request->password, $data->password)){
                     session()->put('login', true);
                     session()->put('email', $data->email);
                     session()->put('nama', $data->nama);
