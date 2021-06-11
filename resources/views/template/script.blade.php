@@ -36,6 +36,8 @@
 <!-- Atlantis JS -->
 <script src="{{url('/')}}/assets/js/atlantis.min.js"></script>
 
+<script src="{{ url('/') }}/assets/dropify/dist/js/dropify.min.js"></script>
+
 <!-- Datatables -->
 <script src="{{url('/')}}/assets/js/plugin/datatables/datatables.min.js"></script>
 

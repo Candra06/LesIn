@@ -8,6 +8,8 @@ use App\Tentor;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class TentorController extends Controller
 {
@@ -40,6 +42,7 @@ class TentorController extends Controller
      */
     public function store(Request $request)
     {
+        // return $request;
         $request->validate([
             'nama' => 'required|max:45',
             'email' => 'required|max:45',
@@ -50,31 +53,41 @@ class TentorController extends Controller
             'alamat' => 'required',
             'username' => 'required',
             'tarif' => 'required|numeric',
+            'foto_ktp' => 'file|between:0,2048|mimes:png,jpg,jpeg',
+            'foto_diri' => 'file|between:0,2048|mimes:png,jpg,jpeg',
         ]);
 
-        $akun['email'] = $request['email'];
-        $akun['username'] = $request['username'];
-        $akun['password'] = bcrypt($request['password']);
-        $akun['role'] = 'tentor';
-        $addAkun = User::create($akun);
-
-        $tentor['id_akun'] = $addAkun->id;
-        $tentor['nama'] = $request['nama'];
-        $tentor['telepon'] = $request['telepon'];
-        $tentor['gender'] = $request['gender'];
-        $tentor['tgl_lahir'] = $request['tgl_lahir'];
-        $tentor['alamat'] = $request['alamat'];
-        $tentor['tarif'] = $request['tarif'];
-        $tentor['motto'] = '-';
-        $tentor['hobi'] = '-';
-        $tentor['lattitude'] = '-';
-        $tentor['longitude'] = '-';
-        $tentor['saldo_dompet'] = 0;
 
         try {
+            $akun['email'] = $request['email'];
+            $akun['username'] = $request['username'];
+            $akun['password'] = bcrypt($request['password']);
+            $akun['role'] = 'tentor';
+            $addAkun = User::create($akun);
+
+            $fileType = $request->file('foto_ktp')->extension();
+            $fileType2 = $request->file('foto_diri')->extension();
+            $name = Str::random(8) . '.' . $fileType;
+            $name2 = Str::random(8) . '.' . $fileType2;
+
+            $tentor['id_akun'] = $addAkun->id;
+            $tentor['nama'] = $request['nama'];
+            $tentor['telepon'] = $request['telepon'];
+            $tentor['gender'] = $request['gender'];
+            $tentor['tgl_lahir'] = $request['tgl_lahir'];
+            $tentor['alamat'] = $request['alamat'];
+            $tentor['tarif'] = $request['tarif'];
+            $tentor['motto'] = '-';
+            $tentor['hobi'] = '-';
+            $tentor['lattitude'] = '-';
+            $tentor['longitude'] = '-';
+            $tentor['saldo_dompet'] = 0;
+            $tentor['foto_ktp'] = Storage::putFileAs('foto_ktp', $request->file('foto_ktp'), $name);
+            $tentor['foto_diri'] = Storage::putFileAs('foto_diri', $request->file('foto_diri'), $name2);
             Tentor::create($tentor);
             return redirect('/tentor')->with('status', 'Berhasil menambahkan data');
         } catch (\Throwable $th) {
+            throw $th;
             return redirect('/tentor/create')->with('status', $th);
         }
     }
@@ -176,7 +189,7 @@ class TentorController extends Controller
             'keterangan' => 'required|max:60',
         ]);
         if (intval($request['saldo']) < intval($request['nominal'])) {
-            return redirect('/pencairan/' . $tentor .'/')->with('status', 'Saldo tidak mencukupi');
+            return redirect('/pencairan/' . $tentor . '/')->with('status', 'Saldo tidak mencukupi');
         }
         // return $request;
         $new = intval($request['saldo']) - intval($request['nominal']);
@@ -201,7 +214,7 @@ class TentorController extends Controller
         } catch (\Throwable $th) {
             //throw $th;
 
-            return redirect('/pencairan/' . $tentor .'/')->with('status', $th);
+            return redirect('/pencairan/' . $tentor . '/')->with('status', $th);
         }
     }
 

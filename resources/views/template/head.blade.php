@@ -21,6 +21,7 @@
 	<!-- CSS Files -->
 	<link rel="stylesheet" href="{{url('/')}}/assets/css/bootstrap.min.css">
 	<link rel="stylesheet" href="{{url('/')}}/assets/css/atlantis.min.css">
+    <link rel="stylesheet" href="{{ url('/') }}/assets/dropify/dist/css/dropify.min.css">
 
 	<!-- CSS Just for demo purpose, don't include it in your project -->
     <link rel="stylesheet" href="{{url('/')}}/assets/css/demo.css">

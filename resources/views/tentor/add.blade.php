@@ -46,7 +46,7 @@
             @endif
             <div class="row">
                 <div class="col-md-12">
-                    <form action="{{ url('/tentor') }}" method="POST">
+                    <form action="{{ url('/tentor') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="card">
                             <div class="card-header">
@@ -54,7 +54,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="email2">Nama</label>
                                             <input type="text" class="form-control  @error('nama') is-invalid @enderror"
@@ -65,7 +65,7 @@
                                         </div>
 
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="password">Telepon</label>
                                             <input type="text" class="form-control  @error('telepon') is-invalid @enderror"
@@ -76,7 +76,7 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="password">Gender</label>
                                             <select class="form-control  @error('gender') is-invalid @enderror"
@@ -92,7 +92,7 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="email2">Tanggal Lahir</label>
                                             <input type="date" value="{{ old('tgl_lahir') }}"
@@ -104,7 +104,7 @@
                                         </div>
 
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="email2">Tarif</label>
                                             <input type="number" value="{{ old('tarif') }}" placeholder="Tarif Tentor"
@@ -116,7 +116,7 @@
                                         </div>
 
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="password">Alamat</label>
                                             <textarea name="alamat" id="" cols="3"
@@ -127,7 +127,8 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="email2">Email</label>
                                             <input type="email" value="{{ old('email') }}"
@@ -139,7 +140,7 @@
                                         </div>
 
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="email2">Username</label>
                                             <input type="text" value="{{ old('username') }}"
@@ -151,7 +152,7 @@
                                         </div>
 
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="password">Password</label>
                                             <input type="password"
@@ -161,6 +162,34 @@
                                                 <label class="mt-1" style="color: red">{{ $message }}</label>
                                             @enderror
                                         </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="email2">Foto KTP</label>
+                                            <input type="file" name="foto_ktp" id="input-file-now-custom-1"
+                                                class="dropify @error('foto_ktp') is-invalid @enderror" required/>
+                                                {{--
+                                                data-default-file="../assets/plugins/dropify/src/images/test-image-1.jpg"
+                                                --}}
+                                            @error('foto_ktp')
+                                                <label class="mt-1" style="color: red">{{ $message }}</label>
+                                            @enderror
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="email2">Foto Diri</label>
+                                            <input type="file" name="foto_diri" id="input-file-now-custom-1"
+                                                class="dropify @error('foto_diri') is-invalid @enderror" required
+                                                {{--
+                                                data-default-file="../assets/plugins/dropify/src/images/test-image-1.jpg"
+                                                --}} />
+                                            @error('foto_diri')
+                                                <label class="mt-1" style="color: red">{{ $message }}</label>
+                                            @enderror
+                                        </div>
+
                                     </div>
                                 </div>
 
@@ -175,4 +204,39 @@
             </div>
         </div>
     </div>
+
+    <script>
+        $(document).ready(function() {
+            // Basic
+            $('.dropify').dropify();
+
+
+            // Used events
+            var drEvent = $('#input-file-events').dropify();
+
+            drEvent.on('dropify.beforeClear', function(event, element) {
+                return confirm("Do you really want to delete \"" + element.file.name + "\" ?");
+            });
+
+            drEvent.on('dropify.afterClear', function(event, element) {
+                alert('File deleted');
+            });
+
+            drEvent.on('dropify.errors', function(event, element) {
+                console.log('Has Errors');
+            });
+
+            var drDestroy = $('#input-file-to-destroy').dropify();
+            drDestroy = drDestroy.data('dropify')
+            $('#toggleDropify').on('click', function(e) {
+                e.preventDefault();
+                if (drDestroy.isDropified()) {
+                    drDestroy.destroy();
+                } else {
+                    drDestroy.init();
+                }
+            })
+        });
+
+    </script>
 @endsection
