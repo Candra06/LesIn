@@ -15,7 +15,7 @@
 				<div class="container-fluid">
 
 					<div class="copyright ml-auto">
-						2020, made with <i class="fa fa-heart heart text-danger"></i> by <a href="{{url('/dashboard')}}">Les.in Tim</a>
+						2021, made with <i class="fa fa-heart heart text-danger"></i> by <a href="{{url('/dashboard')}}">BelajardiRumah Tim</a>
 					</div>
 				</div>
 			</footer>

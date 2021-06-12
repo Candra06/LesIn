@@ -19,7 +19,8 @@ class PembayaranController extends Controller
      */
     public function index()
     {
-        $data = LogPembayaran::leftjoin('kelas as dp', 'dp.id', 'log_pembayaran.id_kelas')
+        $data = LogPembayaran::leftJoin('data_pembayaran', 'data_pembayaran.id', 'log_pembayaran.id_pembayaran')
+        ->leftjoin('kelas as dp', 'dp.id', 'data_pembayaran.id_kelas')
             ->leftJoin('data_siswa as ds', 'ds.id', 'log_pembayaran.created_by')
             ->select('ds.nama', 'log_pembayaran.jumlah_bayar', 'log_pembayaran.status', 'log_pembayaran.tanggal_bayar', 'log_pembayaran.id', 'log_pembayaran.keterangan')
             ->get();
@@ -55,7 +56,8 @@ class PembayaranController extends Controller
      */
     public function show($id)
     {
-        $data = LogPembayaran::leftjoin('kelas as dp', 'dp.id', 'log_pembayaran.id_kelas')
+        $data = LogPembayaran::leftJoin('pembayaran', 'pembayaran.id', 'log_pembayaran.id_pembayaran')
+            ->leftjoin('kelas as dp', 'dp.id', 'pembayaran.id_kelas')
             ->leftJoin('data_siswa as ds', 'ds.id', 'log_pembayaran.created_by')
             ->where('log_pembayaran.id', $id)
             ->select('log_pembayaran.*', 'log_pembayaran.status as status_pembayaran', 'ds.*', 'log_pembayaran.id as id_log')
@@ -102,9 +104,9 @@ class PembayaranController extends Controller
             // nambahkan saldo admin
             $rek = Rekening::where('id', $log->id_rekening)->select('saldo')->first();
             $add_saldo = $rek->saldo + $log->jumlah_bayar;
-            Rekening::where('id', $log->id_rekening)->update(['saldo'=>$add_saldo]);
+            Rekening::where('id', $log->id_rekening)->update(['saldo' => $add_saldo]);
             if ($total_cek <= $bg_tentor) {
-                
+
                 $saldo_tentor = $saldo->saldo_dompet + $log->jumlah_bayar;
                 $inlog = [
                     'id_tentor' => $saldo->id,

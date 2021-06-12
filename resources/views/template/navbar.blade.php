@@ -45,7 +45,7 @@
                                 <div class="user-box">
                                     <div class="avatar-lg"><img src="{{url('/')}}/assets/img/profile.jpg" alt="image profile" class="avatar-img rounded"></div>
                                     <div class="u-text">
-                                        <h4>Admin Les.In</h4>
+                                        <h4>Admin BelajardiRumah</h4>
                                         <p class="text-muted">{{ session('email') }}</p><a href="{{url('/profile/'.session('id'))}}" class="btn btn-xs btn-secondary btn-sm">View Profile</a>
                                     </div>
                                 </div>

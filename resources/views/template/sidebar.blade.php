@@ -8,7 +8,7 @@
                 <div class="info">
                     <a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
                         <span>
-                            Admin Les.In
+                            Admin BelajardiRumah
                             <span class="user-level">{{ session('email') }}</span>
                         </span>
                     </a>

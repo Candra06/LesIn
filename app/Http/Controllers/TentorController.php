@@ -88,12 +88,12 @@ class TentorController extends Controller
             return redirect('/tentor')->with('status', 'Berhasil menambahkan data');
         } catch (\Throwable $th) {
             throw $th;
-            return redirect('/tentor/create')->with('status', $th);
+            return redirect('/tentor/create')->with('status', 'Gagal menambah data tentor');
         }
     }
     public function sendEmail()
     {
-        $name = 'Admin Les.in';
+        $name = 'Admin BelajardiRumah';
         Mail::to(['dewi.chantikamaya06@gmail.com'])->send(new NotifBooking($name));
     }
 
