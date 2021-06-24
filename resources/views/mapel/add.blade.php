@@ -57,7 +57,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="email2">Nama Mapel</label>
-                                            <select name="mapel" class="form-control" id="">
+                                            <select name="mapel" class="form-control @error('mapel') is-invalid @enderror" id="">
                                                 <option value="">Pilih Nama Mapel</option>
                                                 <option value="Bahasa Indonesia" {{  old('mapel') == 'Bahasa Indonesia' ? 'selected' : ''}}>Bahasa Indonesia</option>
                                                 <option value="Matematika"  {{  old('mapel') == 'Matematika' ? 'selected' : ''}}>Matematika</option>

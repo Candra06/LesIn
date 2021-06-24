@@ -58,9 +58,15 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="email2">Nama Mapel</label>
-                                            <input type="text" value="{{ $mapel->mapel }}"
-                                                class="form-control  @error('mapel') is-invalid @enderror" name="mapel"
-                                                placeholder="Nama Lengkap">
+                                            <select name="mapel" class="form-control @error('mapel') is-invalid @enderror" id="">
+                                                <option value="">Pilih Nama Mapel</option>
+                                                <option value="Bahasa Indonesia" {{  old('mapel') == 'Bahasa Indonesia' ? 'selected' : ''}}>Bahasa Indonesia</option>
+                                                <option value="Matematika"  {{  old('mapel') == 'Matematika' ? 'selected' : ''}}>Matematika</option>
+                                                <option value="Bahasa Inggris"  {{  old('mapel') == 'Bahasa Inggris' ? 'selected' : ''}}>Bahasa Inggris</option>
+                                                <option value="IPA"  {{  old('mapel') == 'IPA' ? 'selected' : ''}}>IPA</option>
+                                                <option value="Tematik"  {{  old('mapel') == 'Tematik' ? 'selected' : ''}}>Tematik(SD)</option>
+                                            </select>
+
                                             @error('mapel')
                                                 <label class="mt-1" style="color: red">{{ $message }}</label>
                                             @enderror
