@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Storage;
 
 class UsersController extends Controller
 {
-   public $successStatus = 200;
+    public $successStatus = 200;
     /**
      * Display a listing of the resource.
      *
@@ -77,16 +77,7 @@ class UsersController extends Controller
     public function update(Request $request)
     {
         $id = Auth::user()->id;
-        $request->validate([
-            'nama' => 'required',
-            'email' => 'required',
-            'password' => 'required',
-            'telepon' => 'required',
-            'username' => 'required',
-            'gender' => 'required',
-            'tgl_lahir' => 'required',
-            'alamat' => 'required',
-        ]);
+
         $role = User::where('id', $id)->first();
         try {
             $data['nama'] = $request['nama'];
@@ -94,9 +85,12 @@ class UsersController extends Controller
             $data['gender'] = $request['gender'];
             $data['tgl_lahir'] = $request['tgl_lahir'];
             $data['alamat'] = $request['alamat'];
+
             $akun['email'] = $request['email'];
             $akun['username'] = $request['username'];
-            $akun['password'] =  bcrypt($request['password']);
+            if ($request['password']) {
+                $akun['password'] =  bcrypt($request['password']);
+            }
             User::where('id', $id)->update($akun);
             if ($role->role == "siswa") {
                 Siswa::where('id_akun', $id)->update($data);
@@ -131,19 +125,17 @@ class UsersController extends Controller
         $password = $request->password;
         // dd($password);
         // return bcrypt($password);
-        $data = User::where('username',$username)->first();
-        if($data){
-            if(password_verify($password, $data->password)){
+        $data = User::where('username', $username)->first();
+        if ($data) {
+            if (password_verify($password, $data->password)) {
                 $success['token'] =  $data->createToken('nApp')->accessToken;
                 return response()->json(['data' => $success], $this->successStatus);
-            }else{
+            } else {
                 return response()->json(['error' => bcrypt($password)], 401);
             }
-        }
-        else{
+        } else {
             return response()->json(['error' => 'Email Salah'], 401);
         }
-
     }
 
     public function profil()
@@ -152,9 +144,9 @@ class UsersController extends Controller
         $role =  Auth::user()->role;
 
         if ($role == "siswa") {
-            $data = Siswa::join('users', 'users.id', 'data_siswa.id_akun')->where('data_siswa.id_akun', $user)->select('data_siswa.*', 'users.role', 'users.email','users.username')->first();
+            $data = Siswa::join('users', 'users.id', 'data_siswa.id_akun')->where('data_siswa.id_akun', $user)->select('data_siswa.*', 'users.role', 'users.email', 'users.username')->first();
         } else {
-            $data = Tentor::join('users', 'users.id', 'data_tentor.id_akun')->where('data_tentor.id_akun', $user)->select('data_tentor.*', 'users.role', 'users.email','users.username')->first();
+            $data = Tentor::join('users', 'users.id', 'data_tentor.id_akun')->where('data_tentor.id_akun', $user)->select('data_tentor.*', 'users.role', 'users.email', 'users.username')->first();
         }
 
         return response()->json(['data' => $data], 200);
@@ -185,7 +177,7 @@ class UsersController extends Controller
         $akun['password'] = bcrypt($request['password']);
         $users = User::create($akun);
         $idAkun = $users->id;
-        if ( $akun['role'] == "siswa") {
+        if ($akun['role'] == "siswa") {
             $data['nama'] = $request['nama'];
             $data['telepon'] = $request['telepon'];
             $data['gender'] = $request['gender'];
@@ -197,7 +189,7 @@ class UsersController extends Controller
             $fotoKTP = $request->file('foto_ktp')->extension();
             $fotoDiri = $request->file('foto_diri')->extension();
             $nameKtp = Str::random(8) . '.' . $fotoKTP;
-            $nameDiri= Str::random(8) . '.' . $fotoDiri;
+            $nameDiri = Str::random(8) . '.' . $fotoDiri;
             $data['nama'] = $request['nama'];
             $data['telepon'] = $request['telepon'];
             $data['gender'] = $request['gender'];
@@ -219,7 +211,6 @@ class UsersController extends Controller
         } else {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-
     }
 
     public function requestPassword(Request $request)
@@ -227,18 +218,17 @@ class UsersController extends Controller
         $username = $request->username;
         $email = $request->email;
 
-        $data = User::where('username',$username)
-        ->where('email', $email)
-        ->first();
-        if($data){
+        $data = User::where('username', $username)
+            ->where('email', $email)
+            ->first();
+        if ($data) {
             // if(password_verify($password, $data->password)){
             //     $success['token'] =  $data->createToken('nApp')->accessToken;
-                return response()->json(['data' => 'Username dan Email terdaftar', 'id' => $data->id], $this->successStatus);
+            return response()->json(['data' => 'Username dan Email terdaftar', 'id' => $data->id], $this->successStatus);
             // }else{
             //     return response()->json(['error' => bcrypt($password)], 401);
             // }
-        }
-        else{
+        } else {
             return response()->json(['error' => 'Email dan Username tidak terdaftar'], 401);
         }
     }
@@ -249,19 +239,17 @@ class UsersController extends Controller
         $update = [
             'password' => bcrypt($password)
         ];
-        $data = User::where('id',$id)
-        ->update($update);
-        if($data){
+        $data = User::where('id', $id)
+            ->update($update);
+        if ($data) {
             // if(password_verify($password, $data->password)){
             //     $success['token'] =  $data->createToken('nApp')->accessToken;
-                return response()->json(['data' => 'Berhasil memperbarui password'], $this->successStatus);
+            return response()->json(['data' => 'Berhasil memperbarui password'], $this->successStatus);
             // }else{
             //     return response()->json(['error' => bcrypt($password)], 401);
             // }
-        }
-        else{
+        } else {
             return response()->json(['error' => 'Gagal'], 401);
         }
     }
-
 }
