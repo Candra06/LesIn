@@ -39,7 +39,7 @@
                                     <thead>
                                         <tr>
                                             <th>Nama Siswa</th>
-                                            <th>Tentor</th>
+                                            <th>Tutor</th>
                                             <th>Harga Deal</th>
                                             <th>Status</th>
                                             <th>Aksi</th>

@@ -40,7 +40,7 @@
                                 <table id="basic-datatables" class="display table table-striped table-hover">
                                     <thead>
                                         <tr>
-                                            <th>Tentor</th>
+                                            <th>Tutor</th>
                                             <th>Mapel</th>
                                             <th>Kelas</th>
                                             <th>Jenjang</th>

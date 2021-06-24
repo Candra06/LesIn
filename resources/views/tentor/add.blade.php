@@ -5,7 +5,7 @@
         <div class="page-inner py-5 panel-header bg-primary-gradient">
             <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
                 <div class="">
-                    <h2 class="text-white pb-2 fw-bold">Tentor</h2>
+                    <h2 class="text-white pb-2 fw-bold">Tutor</h2>
                     <ul class="breadcrumbs">
                         <li class="nav-home text-white">
                             <a href="#">
@@ -16,7 +16,7 @@
                             <i class="flaticon-right-arrow text-white"></i>
                         </li>
                         <li class="nav-item text-white">
-                            <a href="{{url('/tentor')}}" class="text-white">Data Tentor</a>
+                            <a href="{{url('/tentor')}}" class="text-white">Data Tutor</a>
                         </li>
                         <li class="separator text-white">
                             <i class="flaticon-right-arrow text-white"></i>
@@ -107,7 +107,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="email2">Tarif</label>
-                                            <input type="number" value="{{ old('tarif') }}" placeholder="Tarif Tentor"
+                                            <input type="number" value="{{ old('tarif') }}" placeholder="Tarif Tutor"
                                                 class="form-control  @error('tarif') is-invalid @enderror"
                                                 name="tarif">
                                             @error('tarif')

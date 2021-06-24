@@ -114,7 +114,7 @@
                 <li class="nav-item {{ Request::segment(1) == 'gajiTentor' ? 'active' : '' }}">
                     <a href="{{ url('/gajiTentor') }}" class="collapsed">
                         <i class="fas fa-dollar-sign"></i>
-                        <p>Gaji Tentor</p>
+                        <p>Gaji Tutor</p>
                     </a>
 
                 </li>

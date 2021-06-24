@@ -56,10 +56,10 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="email2">Tentor</label>
+                                            <label for="email2">Tutor</label>
                                             <select class="form-control @error('tentor') is-invalid @enderror"
                                                 name="tentor">
-                                                <option value="">Pilih Tentor</option>
+                                                <option value="">Pilih Tutor</option>
                                                 @foreach ($tentor as $tn)
                                                     <option value="{{ $tn->id }}" {{old('tentor') == $tn->id ? 'selected' : ''}}>{{ $tn->nama }}</option>
                                                 @endforeach

@@ -26,7 +26,7 @@
                             </div>
                             <div class="col-7 col-stats">
                                 <div class="numbers">
-                                    <p class="card-category">Tentor</p>
+                                    <p class="card-category">Tutor</p>
                                     <h4 class="card-title">{{$tentor}}</h4>
                                 </div>
                             </div>

@@ -39,7 +39,7 @@
                                     <thead>
                                         <tr>
                                             <th>Nama Siswa</th>
-                                            <th>Tentor</th>
+                                            <th>Tutor</th>
                                             <th>Hari/Tanggal</th>
                                             <th>Mata Pelajaran</th>
                                             <th>Status</th>
