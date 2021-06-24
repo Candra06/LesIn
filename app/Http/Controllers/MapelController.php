@@ -36,6 +36,7 @@ class MapelController extends Controller
      */
     public function store(Request $request)
     {
+        // return $request;
         $request->validate([
             'mapel' => 'required',
             'tingkatan' => 'required',
@@ -48,11 +49,11 @@ class MapelController extends Controller
             $input['jenjang'] = $request['tingkatan'];
             $input['kelas'] = $request['kelas'];
             $input['status'] = $request['status'];
-
+            // return $input;
             Mapel::create($input);
             return redirect('/mapel')->with('status', 'Berhasil menambahkan data');
         } catch (\Throwable $th) {
-            return $th;
+            // return $th;
             return redirect('/mapel/create')->with('status', $th);
         }
     }
