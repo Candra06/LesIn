@@ -60,11 +60,11 @@
                                             <label for="email2">Nama Mapel</label>
                                             <select name="mapel" class="form-control @error('mapel') is-invalid @enderror" id="">
                                                 <option value="">Pilih Nama Mapel</option>
-                                                <option value="Bahasa Indonesia" {{  old('mapel') == 'Bahasa Indonesia' ? 'selected' : ''}}>Bahasa Indonesia</option>
-                                                <option value="Matematika"  {{  old('mapel') == 'Matematika' ? 'selected' : ''}}>Matematika</option>
-                                                <option value="Bahasa Inggris"  {{  old('mapel') == 'Bahasa Inggris' ? 'selected' : ''}}>Bahasa Inggris</option>
-                                                <option value="IPA"  {{  old('mapel') == 'IPA' ? 'selected' : ''}}>IPA</option>
-                                                <option value="Tematik"  {{  old('mapel') == 'Tematik' ? 'selected' : ''}}>Tematik(SD)</option>
+                                                <option value="Bahasa Indonesia" {{  $mapel->mapel == 'Bahasa Indonesia' ? 'selected' : ''}}>Bahasa Indonesia</option>
+                                                <option value="Matematika"  {{  $mapel->mapel == 'Matematika' ? 'selected' : ''}}>Matematika</option>
+                                                <option value="Bahasa Inggris"  {{  $mapel->mapel == 'Bahasa Inggris' ? 'selected' : ''}}>Bahasa Inggris</option>
+                                                <option value="IPA"  {{  $mapel->mapel == 'IPA' ? 'selected' : ''}}>IPA</option>
+                                                <option value="Tematik"  {{  $mapel->mapel == 'Tematik' ? 'selected' : ''}}>Tematik(SD)</option>
                                             </select>
 
                                             @error('mapel')
