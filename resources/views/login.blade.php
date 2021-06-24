@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Lesin - Login</title>
+    <title>BelajardiRumah - Login</title>
     <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
     <link rel="icon" href="{{ url('/') }}/assets/img/icon.ico" type="image/x-icon" />
 
@@ -132,7 +132,7 @@
     <script src="{{ url('/') }}/assets/js/core/popper.min.js"></script>
     <script src="{{ url('/') }}/assets/js/core/bootstrap.min.js"></script>
     <script src="{{ url('/') }}/assets/js/atlantis.min.js"></script>
-   
+
 </body>
 
 </html>
