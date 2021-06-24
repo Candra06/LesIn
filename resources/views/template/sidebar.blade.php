@@ -47,7 +47,7 @@
                             </li>
                             <li class="{{ Request::segment(1) == 'tentor' ? 'active' : '' }}">
                                 <a href="{{ url('/tentor')}}">
-                                    <span class="sub-item">Data Tentor</span>
+                                    <span class="sub-item">Data Tutor</span>
                                 </a>
                             </li>
 
