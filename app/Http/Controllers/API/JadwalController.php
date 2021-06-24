@@ -24,7 +24,7 @@ class JadwalController extends Controller
                 ->join('data_mapel', 'data_mapel.id', 'kelas.id_mapel')
                 ->join('data_tentor as dt', 'dt.id', 'kelas.id_tentor')
                 ->where('kelas.id_siswa', $id->id)
-                ->where('tanggal', date('Y-m-d'))
+                ->where('jadwal.tanggal', date('Y-m-d'))
                 ->select('data_mapel.mapel', 'kelas.pertemuan', 'kelas.jumlah_pertemuan', 'dt.nama', 'kelas.id')
                 ->get();
         } else {
