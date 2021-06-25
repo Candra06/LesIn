@@ -112,7 +112,7 @@ class ChatController extends Controller
             }
             $name = Siswa::where('id',  $request['id_siswa'])->select('nama')->first();
             $tentor = Tentor::leftJoin('users', 'users.id', 'data_tentor.id_akun')->where('data_tentor.id',  $request['id_tentor'])->select('email')->first();
-            Mail::to([$tentor->email])->send(new NotifBooking($name->nama));
+            // Mail::to([$tentor->email])->send(new NotifBooking($name->nama));
             return response()->json(['data' => 'Sukses', 'room' => $idRoom], 200);
         } catch (\Throwable $th) {
             return $th;
