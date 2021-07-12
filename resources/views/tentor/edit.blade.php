@@ -110,10 +110,22 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="email2">Tarif</label>
-                                            <input type="number" value="{{ $tentor->tarif }}" placeholder="Tarif tentor"
+                                            <input type="number" value="{{ $tentor->tarif }}" placeholder="Tarif tutor"
                                                 class="form-control  @error('tarif') is-invalid @enderror"
                                                 name="tarif">
                                             @error('tarif')
+                                                <label class="mt-1" style="color: red">{{ $message }}</label>
+                                            @enderror
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="email2">Saldo</label>
+                                            <input type="number" value="{{ $tentor->saldo_dompet }}" placeholder="Saldo tutor"
+                                                class="form-control  @error('saldo') is-invalid @enderror"
+                                                name="saldo">
+                                            @error('saldo')
                                                 <label class="mt-1" style="color: red">{{ $message }}</label>
                                             @enderror
                                         </div>

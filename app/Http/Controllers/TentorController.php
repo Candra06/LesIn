@@ -133,7 +133,7 @@ class TentorController extends Controller
         $request->validate([
             'nama' => 'required|max:45',
             'email' => 'required|max:45',
-            'password' => 'required',
+
             'telepon' => 'required|max:13',
             'gender' => 'required',
             'tgl_lahir' => 'required',
@@ -144,7 +144,9 @@ class TentorController extends Controller
 
         $akun['email'] = $request['email'];
         $akun['username'] = $request['username'];
-        $akun['password'] = bcrypt($request['password']);
+        if ($request['password'] != '') {
+            $akun['password'] = bcrypt($request['password']);
+        }
         $addAkun = User::where('id', $tentor->id_akun)->update($akun);
 
 
@@ -157,7 +159,7 @@ class TentorController extends Controller
         $updt['hobi'] = '-';
         $updt['lattitude'] = 0;
         $updt['longitude'] = 0;
-        $updt['saldo_dompet'] = 0;
+        $updt['saldo_dompet'] = $request['saldo'];
         $updt['tarif'] = $request['tarif'];
 
         try {
