@@ -41,7 +41,7 @@ class PembayaranController extends Controller
             $log['created_by'] = $idSiswa->id;
             $log['keterangan'] = $request['keterangan'];
             $log['id_rekening'] = $request['id_rekening'];
-            $log['confirmed_by'] = 0;
+            // $log['confirmed_by'] = 0;
             $log['status'] = 'Pending';
             $log['created_at'] = date('Y-m-d H:i:s');
             try {
@@ -62,7 +62,7 @@ class PembayaranController extends Controller
             $log['tanggal_bayar'] = $request['tanggal_bayar'];
             $log['jumlah_bayar'] = $request['jumlah_bayar'];
             $log['created_by'] = $idSiswa->id;
-            $log['confirmed_by'] = 0;
+            // $log['confirmed_by'] = 0;
             $log['keterangan'] = $request['keterangan'];
             $log['id_rekening'] = $request['id_rekening'];
             $log['status'] = 'Pending';
