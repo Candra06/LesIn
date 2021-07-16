@@ -19,8 +19,7 @@ class PembayaranController extends Controller
      */
     public function index()
     {
-        $data = LogPembayaran::leftJoin('data_pembayaran', 'data_pembayaran.id', 'log_pembayaran.id_pembayaran')
-        ->leftjoin('kelas as dp', 'dp.id', 'data_pembayaran.id_kelas')
+        $data = LogPembayaran::leftjoin('kelas as dp', 'dp.id', 'log_pembayaran.id_kelas')
             ->leftJoin('data_siswa as ds', 'ds.id', 'log_pembayaran.created_by')
             ->select('ds.nama', 'log_pembayaran.jumlah_bayar', 'log_pembayaran.status', 'log_pembayaran.tanggal_bayar', 'log_pembayaran.id', 'log_pembayaran.keterangan')
             ->get();
