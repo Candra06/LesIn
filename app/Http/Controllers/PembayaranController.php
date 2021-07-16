@@ -55,8 +55,7 @@ class PembayaranController extends Controller
      */
     public function show($id)
     {
-        $data = LogPembayaran::leftJoin('pembayaran', 'pembayaran.id', 'log_pembayaran.id_pembayaran')
-            ->leftjoin('kelas as dp', 'dp.id', 'pembayaran.id_kelas')
+        $data = LogPembayaran::leftjoin('kelas as dp', 'dp.id', 'log_pembayaran.id_kelas')
             ->leftJoin('data_siswa as ds', 'ds.id', 'log_pembayaran.created_by')
             ->where('log_pembayaran.id', $id)
             ->select('log_pembayaran.*', 'log_pembayaran.status as status_pembayaran', 'ds.*', 'log_pembayaran.id as id_log')
