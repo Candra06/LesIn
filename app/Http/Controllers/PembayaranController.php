@@ -140,10 +140,10 @@ class PembayaranController extends Controller
             if ($up['status'] == 'Confirmed' && $log->status == 'Pending' &&  intval($log->jumlah_bayar) >= intval($dp)) {
 
                 Kelas::where('id', $log->id)->update(['status' => 'Aktif']);
+                LogPembayaran::where('id', $id)->update($up);
+                return redirect('/pembayaran')->with('status', 'Berhasil Memverifikasi pembayaran');
             }
 
-            LogPembayaran::where('id', $id)->update($up);
-            return redirect('/pembayaran')->with('status', 'Berhasil Memverifikasi pembayaran');
         } catch (\Throwable $th) {
             return $th;
             return redirect('/pembayaran/' . $id . '/show')->with('status', 'Gagal Memverifikasi Pembayaran');
