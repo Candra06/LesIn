@@ -133,12 +133,12 @@ class PembayaranController extends Controller
                 }
             }
         }
-        return  $log['id'];
+        return  $log['id_kelas'];
         // return $log->jumlah_bayar;
         if ($up['status'] == 'Confirmed' && $log->status == 'Pending' &&  intval($log->jumlah_bayar) >= intval($dp)) {
 
            try {
-            Kelas::where('id', $log->id)->update(['status' => 'Aktif']);
+            Kelas::where('id', $log['id_kelas'])->update(['status' => 'Aktif']);
             LogPembayaran::where('id', $id)->update($up);
             return redirect('/pembayaran')->with('status', 'Berhasil Memverifikasi pembayaran');
            } catch (\Throwable $th) {
