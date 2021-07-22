@@ -86,7 +86,7 @@ class PembayaranController extends Controller
     {
         $log = LogPembayaran::leftJoin('kelas as dk', 'dk.id', 'log_pembayaran.id_kelas')
             ->where('log_pembayaran.id', $id)->select('dk.id as id_kelas', 'dk.status', 'dk.harga_deal', 'log_pembayaran.*', 'dk.id_tentor')->first();
-            // return $log;
+        // return $log;
 
 
         $up['status'] = $request['status'];
@@ -133,21 +133,20 @@ class PembayaranController extends Controller
                 }
             }
         }
+        return  $log['id'];
+        // return $log->jumlah_bayar;
+        if ($up['status'] == 'Confirmed' && $log->status == 'Pending' &&  intval($log->jumlah_bayar) >= intval($dp)) {
 
-        try {
-            // return $up;
-            // return  intval($dp);
-            if ($up['status'] == 'Confirmed' && $log->status == 'Pending' &&  intval($log->jumlah_bayar) >= intval($dp)) {
-
-                Kelas::where('id', $log->id)->update(['status' => 'Aktif']);
-                LogPembayaran::where('id', $id)->update($up);
-                return redirect('/pembayaran')->with('status', 'Berhasil Memverifikasi pembayaran');
-            }
-
-        } catch (\Throwable $th) {
+           try {
+            Kelas::where('id', $log->id)->update(['status' => 'Aktif']);
+            LogPembayaran::where('id', $id)->update($up);
+            return redirect('/pembayaran')->with('status', 'Berhasil Memverifikasi pembayaran');
+           } catch (\Throwable $th) {
             return $th;
             return redirect('/pembayaran/' . $id . '/show')->with('status', 'Gagal Memverifikasi Pembayaran');
+           }
         }
+
     }
 
     /**
