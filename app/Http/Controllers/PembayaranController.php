@@ -86,6 +86,8 @@ class PembayaranController extends Controller
     {
         $log = LogPembayaran::leftJoin('kelas as dk', 'dk.id', 'log_pembayaran.id_kelas')
             ->where('log_pembayaran.id', $id)->select('dk.id as id_kelas', 'dk.status', 'dk.harga_deal', 'log_pembayaran.*', 'dk.id_tentor')->first();
+            // return $log;
+
 
         $up['status'] = $request['status'];
         $up['confirmed_by'] = session('id');
@@ -96,7 +98,7 @@ class PembayaranController extends Controller
         $total_cek = $log->jumlah_bayar + $sum_pemb;
         $saldo = Tentor::where('id', $log->id_tentor)->first();
 
-        $dp = $log->harga_deal * (70 / 100);
+        $dp = $log->harga_deal * (30 / 100);
 
         if ($request['status'] == 'Confirmed') {
             // nambahkan saldo admin
@@ -133,7 +135,10 @@ class PembayaranController extends Controller
         }
 
         try {
+            // return $up;
+            // return  intval($dp);
             if ($up['status'] == 'Confirmed' && $log->status == 'Pending' &&  intval($log->jumlah_bayar) >= intval($dp)) {
+
                 Kelas::where('id', $log->id)->update(['status' => 'Aktif']);
             }
 
