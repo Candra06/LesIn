@@ -128,5 +128,5 @@ class TentorController extends Controller
         }
     }
 
-    
+
 }

@@ -79,8 +79,8 @@ class TentorController extends Controller
             $tentor['tarif'] = $request['tarif'];
             $tentor['motto'] = '-';
             $tentor['hobi'] = '-';
-            $tentor['lattitude'] = '-';
-            $tentor['longitude'] = '-';
+            $tentor['lattitude'] = 0;
+            $tentor['longitude'] = 0;
             $tentor['saldo_dompet'] = 0;
             $tentor['foto_ktp'] = Storage::putFileAs('foto_ktp', $request->file('foto_ktp'), $name);
             $tentor['foto_diri'] = Storage::putFileAs('foto_diri', $request->file('foto_diri'), $name2);

@@ -60,11 +60,18 @@
                                             <label for="email2">Nama Mapel</label>
                                             <select name="mapel" class="form-control @error('mapel') is-invalid @enderror" id="">
                                                 <option value="">Pilih Nama Mapel</option>
+
                                                 <option value="Bahasa Indonesia" {{  $mapel->mapel == 'Bahasa Indonesia' ? 'selected' : ''}}>Bahasa Indonesia</option>
                                                 <option value="Matematika"  {{  $mapel->mapel == 'Matematika' ? 'selected' : ''}}>Matematika</option>
                                                 <option value="Bahasa Inggris"  {{  $mapel->mapel == 'Bahasa Inggris' ? 'selected' : ''}}>Bahasa Inggris</option>
-                                                <option value="IPA"  {{  $mapel->mapel == 'IPA' ? 'selected' : ''}}>IPA</option>
                                                 <option value="Tematik"  {{  $mapel->mapel == 'Tematik' ? 'selected' : ''}}>Tematik(SD)</option>
+                                                <option value="IPA"  {{  $mapel->mapel == 'IPA' ? 'selected' : ''}}>IPA</option>
+                                                <option value="Biologi"  {{  $mapel->mapel == 'Biologi' ? 'selected' : ''}}>Biologi(SMA)</option>
+                                                <option value="Kimia"  {{  $mapel->mapel == 'Kimia' ? 'selected' : ''}}>Kimia(SMA)</option>
+                                                <option value="Fisika"  {{  $mapel->mapel == 'Fisika' ? 'selected' : ''}}>Fisika(SMA)</option>
+                                                <option value="Sejarah"  {{  $mapel->mapel == 'Sejarah' ? 'selected' : ''}}>Sejarah(SMA)</option>
+                                                <option value="Geografi"  {{  $mapel->mapel == 'Geografi' ? 'selected' : ''}}>Geografi(SMA)</option>
+                                                <option value="Ekonomi"  {{  $mapel->mapel == 'Ekonomi' ? 'selected' : ''}}>Ekonomi(SMA)</option>
                                             </select>
 
                                             @error('mapel')
